@@ -11,5 +11,5 @@ pipeline {
                 sh 'python -m py_compile app.py'
             }
             }
-            }
+        }
 }
