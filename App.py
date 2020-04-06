@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,flash
 from forms import LoginForm
 import pyrebase
 app = Flask(__name__)
@@ -25,7 +25,6 @@ auth= firebase.auth()
 def home():
     form = LoginForm()
     if form.validate_on_submit():
-        print("ddddddddddddddd")
         try:
             auth.sign_in_with_email_and_password(form.email.data,form.password.data)
             return "Login"
