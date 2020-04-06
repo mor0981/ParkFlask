@@ -18,6 +18,8 @@ config={
 firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
 
+
+
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/home',methods=['GET', 'POST'])
 def home():
@@ -27,7 +29,7 @@ def home():
             auth.sign_in_with_email_and_password(form.email.data,form.password.data)
             return "Login"
         except:
-            return "Not Exist"
+            return render_template('index.html',form=form,us="Not Exist")
     return render_template('index.html',form=form)
 
 @app.route('/about')

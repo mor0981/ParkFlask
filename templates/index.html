@@ -34,21 +34,21 @@
 				<form class="login100-form validate-form" method="POST" action="">
 					{{ form.hidden_tag() }}
 					{{form.csrf_token}}
-					{% if form.errors %}
-						{{ form.errors }}
-					{% endif %}
 					<span class="login100-form-title p-b-43">
 						התחבר כדי להמשיך
 					</span>
 					
-					
+					{%if us %}
+						<div class="er">שם משתמש או סיסמא לא נכונים</div>
+					{% endif %}
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
 						{{form.email(class="input100",type="email")}}
 						<span class="focus-input100"></span>
 						<span class="label-input100" dir="rtl">הכנס אימייל</span>
-						
 					</div>
-					
+					{%if form.email.errors %}
+						<div class="er">אימייל לא תקין*</div>
+					{% endif %}
 					
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
 						{{form.password(class="input100",type="password")}}
