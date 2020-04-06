@@ -1,39 +1,35 @@
-# tests/test_users.py
+import pyrebase
 
 
-import unittest
+config={
+  "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
+  "authDomain": "parkflask.firebaseapp.com",
+  "databaseURL": "https://parkflask.firebaseio.com",
+  "projectId": "parkflask",
+  "storageBucket": "parkflask.appspot.com",
+  "messagingSenderId": "685599054335",
+  "appId": "1:685599054335:web:db2d1d2890588a14772fca",
+  "measurementId": "G-H8HGMEE4WB"
+}
 
-from flask_login import LoginManager
-from flask import request
+firebase = pyrebase.initialize_app(config)
+auth= firebase.auth()
 
-from base import BaseTestCase
-from project import bcrypt
-from project.models import User
-class UserViewsTests(BaseTestCase):
+def Test_Correctdata():
+    try:
+        auth.sign_in_with_email_and_password("mor0981@gmail.com","12661266")
+        return True
+    except:
+        return False
 
-    # Ensure that the login page loads correctly
-    def test_login_page_loads(self):
-        response = self.client.get('/login')
-        self.assertIn(b'Please login', response.data)
+def Test_NotCorrectdata():
+    try:
+        auth.sign_in_with_email_and_password("mor01@gmail.com","12661266")
+        return True
+    except:
+        return False
 
-    # Ensure login behaves correctly with correct credentials
-    def test_correct_login(self):
-        with self.client:
-            response = self.client.post(
-                '/login',
-                data=dict(email="admin@d.com", password="admin"),
-                follow_redirects=True
-            )
 
-            self.assertIn(b'You were logged in', response.data)
-            self.assertTrue(current_user.email == "admin@d.com")
-            self.assertTrue(current_user.is_active())
 
-    # Ensure login behaves correctly with incorrect credentials
-    def test_incorrect_login(self):
-        response = self.client.post(
-            '/login',
-            data=dict(email="wrong@d.com", password="wrong"),
-            follow_redirects=True
-        )
-        self.assertIn(b'Invalid username or password.', response.data)
+Test_Correctdata()
+Test_NotCorrectdata()

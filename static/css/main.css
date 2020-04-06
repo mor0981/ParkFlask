@@ -273,6 +273,12 @@ iframe {
   text-align: center;
 }
 
+.er{
+  text-align: right;
+  margin-bottom: 10px;
+  color:red;
+}
+
 
 
 /*------------------------------------------------------------------

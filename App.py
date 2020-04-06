@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,flash
+from flask import Flask,render_template,request,flash,session,redirect,url_for
 from forms import LoginForm
 import pyrebase
 app = Flask(__name__)
@@ -27,14 +27,18 @@ def home():
     if form.validate_on_submit():
         try:
             auth.sign_in_with_email_and_password(form.email.data,form.password.data)
-            return "Login"
+            session["user"]=form.email.data
+            return redirect(url_for("user"))
         except:
-            return "Not Exist"
-    return render_template('index.html',form=form)
+            return render_template('index.html',form=form,us="Not Exist")
+    else:
+        if "user" in session:
+            return redirect(url_for("user"))
+        return render_template('index.html',form=form)
 
-@app.route('/about')
-def about():
-    return render_template('index.html')
+@app.route('/user')
+def user():
+    return render_template('home.html')
 
 
 
