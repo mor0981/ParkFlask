@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
-from forms import LoginForm
+from forms import LoginForm,SignOutForm
 import pyrebase
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
@@ -38,7 +38,8 @@ def home():
 
 @app.route('/user')
 def user():
-    return render_template('home.html')
+    form = SignOutForm()
+    return render_template('home.html',form=form)
 
 
 

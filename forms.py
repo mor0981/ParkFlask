@@ -8,3 +8,6 @@ class LoginForm(FlaskForm):
     password= PasswordField('סיסמא',
                             validators=[DataRequired()])
     submit = SubmitField('התחבר')
+
+class SignOutForm(FlaskForm):
+    submit = SubmitField('התנתק')
