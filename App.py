@@ -37,7 +37,7 @@ def home():
 def about():
     return render_template('index.html')
 
-# moran rules!
+print("Hello")
 
 if __name__ == '__main__':
     app.run(debug=True)
