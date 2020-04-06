@@ -36,10 +36,17 @@ def home():
             return redirect(url_for("user"))
         return render_template('index.html',form=form)
 
-@app.route('/user')
+@app.route('/user',methods=['GET', 'POST'])
 def user():
     form = SignOutForm()
+    if form.validate_on_submit():
+        return redirect(url_for("logout"))
     return render_template('home.html',form=form)
+
+@app.route('/logout')
+def logout():
+    session.pop("user",None)
+    return redirect(url_for("home"))
 
 if __name__ == '__main__':
     app.run(debug=True)
