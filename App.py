@@ -20,6 +20,7 @@ auth= firebase.auth()
 
 
 
+
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/home',methods=['GET', 'POST'])
 def home():
