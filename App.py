@@ -15,12 +15,14 @@ config={
   "measurementId": "G-H8HGMEE4WB"
 }
 
+
+
+
+
+
 firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
 
-
-
-"""hello"""
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/home',methods=['GET', 'POST'])
 def home():
