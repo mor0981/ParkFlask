@@ -52,10 +52,11 @@ def logout():
 @app.route('/register',methods=['GET', 'POST'])
 def register():
     return render_template('basic.html')
-@app.route('/unregister',methods=['GET', 'POST'])"""unregister"""
+"""unregister"""
+@app.route('/unregister',methods=['GET', 'POST'])
 def unregister():
     return render_template('basic3.html')
 
-
+"""finnish"""
 if __name__ == '__main__':
     app.run(debug=True)
