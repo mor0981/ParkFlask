@@ -49,5 +49,13 @@ def logout():
     session.pop("user",None)
     return redirect(url_for("home"))
 
+@app.route('/register',methods=['GET', 'POST'])
+def register():
+    return render_template('basic.html')
+@app.route('/unregister',methods=['GET', 'POST'])
+def unregister():
+    return render_template('basic3.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
