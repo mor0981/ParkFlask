@@ -4,7 +4,7 @@
 	<title>פורטל פארקים באר שבע</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="{{url_for('static',filename='images/icons/favicon.ico')}}"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -14,13 +14,13 @@
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='fonts/Linearicons-Free-v1.0.0/icon-font.min.css')}}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='vendor/animate/animate.css')}}">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='vendor/css-hamburgers/hamburgers.min.css')}}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='vendor/animsition/css/animsition.min.css')}}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='vendor/select2/select2.min.css')}}">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='vendor/daterangepicker/daterangepicker.css')}}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/util.css')}}">
@@ -37,7 +37,7 @@
 					<span class="login100-form-title p-b-43">
 						התחבר כדי להמשיך
 					</span>
-					
+
 					{%if us %}
 						<div class="er">שם משתמש או סיסמא לא נכונים</div>
 					{% endif %}
@@ -49,7 +49,7 @@
 					{%if form.email.errors %}
 						<div class="er">אימייל לא תקין*</div>
 					{% endif %}
-					
+
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
 						{{form.password(class="input100",type="password")}}
 						<span class="focus-input100"></span>
@@ -70,18 +70,14 @@
 							</a>
 						</div>
 					</div>
-			
 
-					
+
+
 						{{form.submit(class="login100-form-btn")}}
-						
-					
-					
-					<div class="text-center p-t-46 p-b-20">
-						<span class="txt2">
-							הרשם
-						</span>
-					</div>
+
+
+
+
 
 					<div class="login100-form-social flex-c-m">
 						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">
@@ -100,11 +96,11 @@
 		</div>
 	</div>
 
-	
-	
 
-	
-	
+
+
+
+
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -121,6 +117,17 @@
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
+<form class="" action="register" method="post">
+	<div class="text-center p-t-46 p-b-20">
+		<button type="submit" class="btn btn-primary">הרשמה</button>
+		</form>
+	</div>
+	<form class="" action="unregister" method="post">
 
+	<div class="text-center p-t-46 p-b-20">
+		<button type="submit" class="btn btn-primary">ביטול הרשמה</button>
+	</div>
+
+</form>
 </body>
 </html>
