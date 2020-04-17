@@ -52,7 +52,7 @@ def logout():
 @app.route('/register',methods=['GET', 'POST'])
 def register():
     return render_template('basic.html')
-@app.route('/unregister',methods=['GET', 'POST'])
+@app.route('/unregister',methods=['GET', 'POST'])"""unregister"""
 def unregister():
     return render_template('basic3.html')
 
