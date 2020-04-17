@@ -9,5 +9,12 @@ class LoginForm(FlaskForm):
                             validators=[DataRequired()])
     submit = SubmitField('התחבר')
 
+
+
+class LoginGuestForm(FlaskForm):
+    emailg=StringField('Email',validators=[DataRequired(),Email()])
+    passwordg=PasswordField('Password',validators=[DataRequired()])
+    submit = SubmitField('Login')
+
 class SignOutForm(FlaskForm):
     submit = SubmitField('התנתק')

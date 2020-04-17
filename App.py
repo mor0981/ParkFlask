@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
-from forms import LoginForm,SignOutForm
+from forms import LoginForm,SignOutForm,LoginGuestForm
 import pyrebase
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
@@ -58,6 +58,23 @@ def register():
 @app.route('/unregister',methods=['GET', 'POST'])
 def unregister():
     return render_template('basic3.html')
+
+@app.route('/loginGuest',methods=['GET', 'POST'])
+def loginGuest():
+    form = LoginGuestForm()
+    if form.validate_on_submit():
+        try:
+            auth.sign_in_with_email_and_password(form.Email.data,form.Password.data)
+            session["email"]=form.email.data
+            return redirect(url_for("GuestHome"))
+        except:
+            return render_template('loginGuest.html',form=form,us="Not Exist")
+    else:
+        if "email" in session:
+            return redirect(url_for("GuestHome"))
+        return render_template('loginGuest.html',form=form)
+
+
 
 """finnish"""
 if __name__ == '__main__':
