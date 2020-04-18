@@ -54,11 +54,17 @@ def logout():
 @app.route('/register',methods=['GET', 'POST'])
 def register():
     return render_template('basic.html')
-"""unregister"""
+
+#signup
+@app.route('/signup',methods=['GET', 'POST'])
+def signup():
+    return render_template('signup.html')
+
+#unregister
 @app.route('/unregister',methods=['GET', 'POST'])
 def unregister():
     return render_template('basic3.html')
 
-"""finnish"""
+#finnish
 if __name__ == '__main__':
     app.run(debug=True)
