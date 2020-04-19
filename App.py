@@ -22,6 +22,7 @@ config={
 
 firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
+db=firebase.database()
 
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/home',methods=['GET', 'POST'])
@@ -61,20 +62,26 @@ def unregister():
 
 @app.route('/loginGuest',methods=['GET', 'POST'])
 def loginGuest():
-    form = LoginGuestForm()
-    if form.validate_on_submit():
-        try:
-            auth.sign_in_with_email_and_password(form.Email.data,form.Password.data)
-            session["email"]=form.email.data
-            return redirect(url_for("GuestHome"))
-        except:
-            return render_template('loginGuest.html',form=form,us="Not Exist")
-    else:
-        if "email" in session:
-            return redirect(url_for("GuestHome"))
-        return render_template('loginGuest.html',form=form)
+    if request.method == "POST":
+      #get the request data
+      email = request.form["email"]
+      password = request.form["password"]
+      print(email,password)
+      try:
+        #login the user
+        user = auth.sign_in_with_email_and_password(email, password)
+        #set the session
+        user_id = user['idToken']
+        user_email = email
+        session['usr'] = user_id
+        session["email"] = user_email
+        return redirect("/")  
+      
+      except:
+        return render_template("loginGuest.html", message="Wrong Credentials" )  
 
-
+     
+    return render_template("loginGuest.html")
 
 """finnish"""
 if __name__ == '__main__':
