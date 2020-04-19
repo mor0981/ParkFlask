@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
-from forms import LoginForm,SignOutForm
+from forms import LoginForm,SignOutForm,registerForm,testForm
 import pyrebase
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
@@ -27,6 +27,7 @@ def home():
     form = LoginForm()
     if form.validate_on_submit():
         try:
+
             auth.sign_in_with_email_and_password(form.email.data,form.password.data)
             session["user"]=form.email.data
             return redirect(url_for("user"))
@@ -51,11 +52,36 @@ def logout():
 
 @app.route('/register',methods=['GET', 'POST'])
 def register():
-    return render_template('basic.html')
+    form=registerForm()
+
+    return render_template('basic.html',form=form)
 """unregister"""
 @app.route('/unregister',methods=['GET', 'POST'])
 def unregister():
     return render_template('basic3.html')
+@app.route('/test',methods=['GET', 'POST'])
+def test():
+    form=testForm()
+    form1=testForm(request.form)
+    name=form1.email.data
+    password=form1.password.data
+    print(name)
+    auth.create_user_with_email_and_password(name,password)
+    return  redirect(url_for("user"))
+    """
+    if form.validate_on_submit():
+        try:
+            auth.create_user_with_email_and_password(form.email.data,form.password.data)
+            print("in try")
+            return render_template(url_for("user"))
+        except:
+            print("in except")
+            return render_template("testing.html",form=form)
+
+    print("in else")
+    return render_template("testing.html",form=form)
+"""
+
 
 """finnish"""
 if __name__ == '__main__':

@@ -11,3 +11,14 @@ class LoginForm(FlaskForm):
 
 class SignOutForm(FlaskForm):
     submit = SubmitField('התנתק')
+
+class registerForm(FlaskForm):
+    Email=StringField("דואר אלקטרוני", validators=[DataRequired(),Email()])
+    password= PasswordField('סיסמא',validators=[DataRequired()])
+    username=StringField('שם משתמש',validators=[DataRequired()])
+
+
+class testForm(FlaskForm):
+    email=StringField()
+    password=StringField()
+    submit=SubmitField("button")
