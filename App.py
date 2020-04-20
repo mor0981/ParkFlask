@@ -1,8 +1,20 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
-from forms import LoginForm,SignOutForm
+from forms import LoginForm,SignOutForm, NewParkForm, DeleteParkForm
 import pyrebase
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
+# Use a service account
+
+# default_app = firebase_admin.initialize_app()
+
+cred = credentials.Certificate('C:\\Users\\Moran Lavi\\Documents\\GitHub\\ParkFlask\\parkflask-firebase-adminsdk-wplsp-78f1875805.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 config={
   "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
@@ -15,13 +27,8 @@ config={
   "measurementId": "G-H8HGMEE4WB"
 }
 
-
-
-
-
-
 firebase = pyrebase.initialize_app(config)
-auth= firebase.auth()
+auth = firebase.auth()
 
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/home',methods=['GET', 'POST'])
@@ -51,8 +58,44 @@ def logout():
     session.pop("user",None)
     return redirect(url_for("home"))
 
-@app.route('/newpark')
+
+@app.route('/newpark', methods =['GET','POST'])
 def newpark():
-    return render_template('createNewPark.html')
+
+    form = NewParkForm()
+
+    if form.validate_on_submit():
+        # session['parkName'] = form.parkName.data
+        # session['parkAddress'] = form.parkAddress.data
+        # session['shadow'] = form.shadow.data
+        data = {
+        "name": form.parkName.data,
+        "other": form.parkAddress.data,
+        "shadowing": form.shadow.data
+        }
+        db.collection(u'Parks').document().set(data)
+
+        print("hello")
+        return redirect(url_for('newpark'))
+    return render_template('createNewPark.html', form=form)
+
+
+@app.route('/deletepark', methods =['GET','POST'])
+def deletepark():
+
+    form = DeleteParkForm()
+
+    if form.validate_on_submit():
+        # session['parkName'] = form.parkName.data
+        # session['parkAddress'] = form.parkAddress.data
+        data = {
+        "name": form.parkName.data,
+        "other": form.parkAddress.data
+        }
+        db.collection(u'Parks').document(u'9in7JqNkBXRNE0PbJiid').delete()
+        return redirect(url_for('deletepark'))
+    return render_template('deletePark.html', form=form)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
