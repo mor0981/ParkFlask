@@ -12,9 +12,15 @@ class LoginForm(FlaskForm):
 
 
 class LoginGuestForm(FlaskForm):
+
     emailg=StringField('Email',validators=[DataRequired(),Email()])
     passwordg=PasswordField('Password',validators=[DataRequired()])
     submit = SubmitField('Login')
+
+
+
+class logoutGuset(FlaskForm):
+    submit = SubmitField('logout')
 
 class SignOutForm(FlaskForm):
     submit = SubmitField('התנתק')

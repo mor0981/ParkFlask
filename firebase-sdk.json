@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "parkflask",
+  "private_key_id": "a5fbc302b388fa8e5e8782d0488e1e165e2716d5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDqSnOTmWLT6uiE\nrF2Yk76/BiofojUmwmtV1wlo+59IN+kveXjM5PjcDRLryUR1UtqVUHNnnhMSBTFX\nLrRbgBbmIgzU/9cVty3rkq5J5JXNoljZ1GTvAUwofsxxiUOvgG5gtfIb8cLSb1cR\nq9+IbtL1NvHQW36CLSS6fWO7R5HnMg1a+HZQOZ6RQTbFocxpJCQdQC5O/tIszrub\nD55vumI4ONwmum3DYTZc++VnyovUSbYBR3poL0JPxQME0kH0LtiPj5bG6Kcv+9yU\nu+I6SlxAlqMH8xijpWoQ1pWzmDrwmHnh0fYapZQsALw3em16ELBhqTo/oaFKIG1M\nQuwzJ7SNAgMBAAECggEALI23cFpTIZ8SlAZOLzFrbNqggI8BYgtHS5Xet3zgI6Tk\nPm+wYfBqBbijwDxwPQpiQFJB+/KiyEK+CQj76cmQMTfI7mlvjrTcseddJval6Sqm\nEFh0UEIUKEBCoxWaDkITW2dGMPu203syWM0xLzn5+oE2F2wKwPkSOreVE1xvGcJ8\n8fACRoIE7qGDn+u4uSPVk8CcVNZs5KU3TiYuI5Nk5A5RQwH+FZafFzufPM4ZN3n3\nLy+wl3vJOZPXGOsPQjtQv9N2n1tq1WkUDDyAAB5kx7kw6Gj1Rbyia2LJ4xq3jU3n\nh4MCwALyVX6a1zfuY7A5aV1WF/v0Oa59rDdtA8G/mQKBgQD+nLNyw3qlShu3dVAT\nyLoLWFa4hx3/D1Ge44OM5hfEM6qy0giy8Mcg37i6Nbcx1ZbkspF7dXPcQ/HWnmgI\n22d3PgA3tTpPyjDn6SiUEumLCoTyowYPGFUs1papL6TfpIh2TMIFn1bXnLgkPwFK\nxusFA1iFf2xcnXD/Qhu8cgpRiQKBgQDrkWSjSHYAl7chF7C0uLQHx6KLgmHMVxwW\nNpw5L+u5X+SGjOpcKXYY4bBq869d4sy/YdO9LpIy7VMytg9tX5KVoQeVsRxfIors\nrFg/5AFUDmuF+Xzk1+NKXkzme9BsT1hL+0OlgXs2IlLvM9Y7MqeGFZQwn4ap5MtW\ni+jugF5d5QKBgQDaNKW+BzXHDnougkW8jtyS+IRp5LKacyB6UXXefRuFNNpoIoT+\nBkhCLjn8rChydyC4oyj3a7N95GUQj/WNEavcj7BUDecJlrjPKA10ybiJRtylrX11\n1l647Ld2C7T7TeD9sc7eTq54XoGZ3r1Wvp+QTkvBLXFK9ktvF9L5b6rUMQKBgGZl\n5SE1NlY7nNc9vQpR37AiD34lRu3UT9k4E+Cn/Aewr13tk1JMk5FtSYq0Mt7U37ux\ngqERxWttzmSUz0/z43w3a1yeiH6yPUF0CUh8jDdFrWenc6rmTV7ebv8hgxARzYf5\nyQYAqtZ1RSfFmLJS6o9WgfxA3ACt+9W7K53BH0QhAoGBAJ9HSEJ6bzG4veh8vgQn\n6narr3cVyaxWLLTO5ytE03KaP8ElWmSyz952d1BudLb+972ZMZk9RD/pVVAZ40RH\nkTtmpxEzOZniv4/LVbQIuRnRLWCAscFrZtigataDnQSokPPmLYRTahAEz0HXMou5\n2iVTUoltCacl12WuYPUoO608\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-wplsp@parkflask.iam.gserviceaccount.com",
+  "client_id": "107566046540275247732",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-wplsp%40parkflask.iam.gserviceaccount.com"
+}
