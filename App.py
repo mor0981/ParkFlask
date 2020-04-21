@@ -56,8 +56,7 @@ def user():
 @app.route('/logout')
 def logout():
     session.pop("user",None)
-    return redirect(url_for("home"))
-
+    return redirect(url_for("home")
 
 @app.route('/newpark', methods =['GET','POST'])
 def newpark():
@@ -109,7 +108,6 @@ def deletepark():
 
         return redirect(url_for('deletepark'))
     return render_template('deletePark.html', form=form)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
