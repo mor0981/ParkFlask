@@ -1,8 +1,18 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
 from forms import LoginForm,SignOutForm
 import pyrebase
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
+
+
+cred = credentials.Certificate('C:\\Users\\mor09\\Desktop\\scholl\\Parck\\parkflask-firebase-adminsdk-wplsp-87a9bb6106.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 config={
   "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
@@ -17,9 +27,6 @@ config={
 
 
 
-
-
-
 firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
 
@@ -29,7 +36,8 @@ def home():
     form = LoginForm()
     if form.validate_on_submit():
         try:
-            auth.sign_in_with_email_and_password(form.email.data,form.password.data)
+            user=auth.sign_in_with_email_and_password(form.email.data,form.password.data)
+            print(auth.get_account_info(user['idToken'])['users'][0]['localId'])
             session["user"]=form.email.data
             return redirect(url_for("user"))
         except:
@@ -41,10 +49,13 @@ def home():
 
 @app.route('/user',methods=['GET', 'POST'])
 def user():
-    form = SignOutForm()
-    if form.validate_on_submit():
-        return redirect(url_for("logout"))
-    return render_template('home.html',form=form)
+    if "user" in session:
+        form = SignOutForm()
+        if form.validate_on_submit():
+            return redirect(url_for("logout"))
+        return render_template('home.html',form=form)
+    else:
+        return redirect(url_for("home"))
 
 @app.route('/logout')
 def logout():
