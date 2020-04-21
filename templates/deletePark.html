@@ -129,7 +129,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h2 class="contact-title">יצירת פארק חדש</h2>
+                        <h2 class="contact-title">מחיקת פארק</h2>
                     </div>
                     <div class="col-lg-8">
                       {% for mess in get_flashed_messages() %}
@@ -141,7 +141,7 @@
                       </div>
                       {% endfor %}
 
-                        <form class="form-contact contact_form" method="POST" action="">
+                        <form class="form-contact contact_form" method="post" action="">
                           {{ form.hidden_tag() }}
                           {{form.csrf_token}}
                             <div class="row">
@@ -156,11 +156,6 @@
                                         {{ form.parkAddress.label }}{{ form.parkAddress(class="form-control valid") }}
                                         <!-- <input class="form-control valid" name="address" id="address" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'הכנס את כתובת הפארק'" placeholder="כתובת"> -->
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                  <div class="form-group">
-                                        {{ form.shadow.label }}{{form.shadow}}
-                                  </div>
                                 </div>
                             </div>
                             <div class="form-group mt-3">
@@ -178,7 +173,7 @@
     <!-- JS here -->
 
 		<!-- All JS Custom Plugins Link Here here -->
-		<script src="{{ url_for('static', filename='createNewPark/assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
+		    <script src="{{ url_for('static', filename='createNewPark/assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
 		<!-- Jquery, Popper, Bootstrap -->
 
         <script src="{{ url_for('static', filename='createNewPark/assets/js/vendor/jquery-1.12.4.min.js') }}"></script>
@@ -192,8 +187,8 @@
         <script src="{{ url_for('static', filename='createNewPark/assets/js/owl.carousel.min.js') }}"></script>
         <script src="{{ url_for('static', filename='createNewPark/assets/js/slick.min.js') }}"></script>
 		<!-- One Page, Animated-HeadLin -->
-		<script src="{{ url_for('static', filename='createNewPark/assets/js/wow.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='createNewPark/assets/js/animated.headline.js') }}"></script>
+    		<script src="{{ url_for('static', filename='createNewPark/assets/js/wow.min.js') }}"></script>
+    		<script src="{{ url_for('static', filename='createNewPark/assets/js/animated.headline.js') }}"></script>
 		<!-- Scrollup, nice-select, sticky -->
         <script src="{{ url_for('static', filename='createNewPark/assets/js/jquery.scrollUp.min.js') }}"></script>
         <script src="{{ url_for('static', filename='createNewPark/assets/js/jquery.nice-select.min.js') }}"></script>

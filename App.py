@@ -27,6 +27,12 @@ config={
   "measurementId": "G-H8HGMEE4WB"
 }
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 70792b4094c15f017787c97a03a0af963642ee70
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
@@ -63,19 +69,27 @@ def logout():
 def newpark():
 
     form = NewParkForm()
-
     if form.validate_on_submit():
-        # session['parkName'] = form.parkName.data
-        # session['parkAddress'] = form.parkAddress.data
-        # session['shadow'] = form.shadow.data
+
         data = {
         "name": form.parkName.data,
         "other": form.parkAddress.data,
         "shadowing": form.shadow.data
         }
-        db.collection(u'Parks').document().set(data)
+        docs = db.collection(u'Parks').stream()
+        canMakePark = True
+        for doc in docs:
+            dici = doc.to_dict()
+            if data["name"] == dici['name'] and data["other"] == dici['other']:
+                canMakePark = False
 
-        print("hello")
+        if canMakePark:
+            db.collection(u'Parks').document().set(data)
+            flash(" יצרת פארק חדש ")
+        else:
+            flash("לא ניתן ליצור פארק")
+
+
         return redirect(url_for('newpark'))
     return render_template('createNewPark.html', form=form)
 
@@ -84,15 +98,21 @@ def newpark():
 def deletepark():
 
     form = DeleteParkForm()
-
     if form.validate_on_submit():
-        # session['parkName'] = form.parkName.data
-        # session['parkAddress'] = form.parkAddress.data
-        data = {
-        "name": form.parkName.data,
-        "other": form.parkAddress.data
-        }
-        db.collection(u'Parks').document(u'9in7JqNkBXRNE0PbJiid').delete()
+
+        req = request.form
+        parkName = req["parkName"]
+        parkAddress = req["parkAddress"]
+
+        docs = db.collection(u'Parks').stream()
+        for doc in docs:
+            dici = doc.to_dict()
+            if parkName == dici['name'] and parkAddress == dici['other']:
+                print (f"park {dici['name']} in {dici['other']} has beem deleted")
+                db.collection(u'Parks').document(doc.id).delete()
+                flash("מחקת פארק")
+
+
         return redirect(url_for('deletepark'))
     return render_template('deletePark.html', form=form)
 
