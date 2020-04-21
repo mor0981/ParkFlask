@@ -27,12 +27,6 @@ config={
   "measurementId": "G-H8HGMEE4WB"
 }
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 70792b4094c15f017787c97a03a0af963642ee70
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
