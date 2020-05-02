@@ -1,6 +1,6 @@
 import unittest
 import pyrebase
-import app
+from App.py import app
 
 config={
   "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
