@@ -30,7 +30,7 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 firebase = pyrebase.initialize_app(config)
-auth= firebase.auth(
+auth= firebase.auth()
 
 
 
