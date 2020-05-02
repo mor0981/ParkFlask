@@ -23,9 +23,9 @@ config={
 
 with open('playgrounds.json', 'r',encoding="utf8") as myfile:
     data=json.loads(myfile.read())
-    print(data[0])
 
-cred = credentials.Certificate('C:\\Users\\mor09\\Desktop\\scholl\\Parck\\parkflask-firebase-adminsdk-wplsp-87a9bb6106.json')
+cred = credentials.Certificate('parkflask-firebase-adminsdk-wplsp-87a9bb6106.json')
+print(cred)
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
