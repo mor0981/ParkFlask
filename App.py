@@ -20,7 +20,6 @@ config={
   "measurementId": "G-H8HGMEE4WB"
 }
 
-
 with open('playgrounds.json', 'r',encoding="utf8") as myfile:
     data=json.loads(myfile.read())
 
