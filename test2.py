@@ -1,5 +1,6 @@
 import unittest
 import pyrebase
+import app
 
 config={
   "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
@@ -17,6 +18,9 @@ auth= firebase.auth()
 
 class TestHello(unittest.TestCase):
     #User login with correct details
+    def setUp(self):
+        app.app.testing = True
+        self.app = app.app.test_client()
     def test_correct(self):
         try:
             auth.sign_in_with_email_and_password("mor0981@gmail.com","12661266")
