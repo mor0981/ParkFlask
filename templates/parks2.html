@@ -1,10 +1,5 @@
+{% extends "adminLayout.html" %}
 
-{% if admin %}
-    {% extends "adminLayout.html" %}
-{% else %}
-    {% extends "visitLayout.html" %}  
-{% endif %}
-    
 {% block content %}
 <div style="padding: 10px;">
     {% for i in data %}

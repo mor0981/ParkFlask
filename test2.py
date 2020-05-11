@@ -21,9 +21,11 @@ class TestHello(unittest.TestCase):
     def setUp(self):
         app.testing = True
         self.app = app.test_client()
+
     def test_homePage(self):
         rv = self.app.get('/')
         self.assertEqual(rv.status, '200 OK')
+
     def test_correct(self):
         try:
             auth.sign_in_with_email_and_password("mor0981@gmail.com","123456")
@@ -31,6 +33,7 @@ class TestHello(unittest.TestCase):
         except:
             self.assertTrue(False)
     #User login with incorrect details
+    
     def test_incorrect(self):
         try:
             auth.sign_in_with_email_and_password("mor081@gmail.com","12661266")

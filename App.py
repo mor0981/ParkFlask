@@ -37,6 +37,11 @@ auth= firebase.auth()
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/homePage',methods=['GET', 'POST'])
 def homePage():
+        if "user" in session:
+            if(session["admin"]):
+                return redirect(url_for("adminPage"))
+            else:
+                return redirect(url_for("visitPage"))
         return render_template('homePage.html')
 
 @app.route('/login',methods=['GET', 'POST'])
@@ -52,8 +57,10 @@ def login():
                 admin=doc.to_dict()['admin']
                 if(admin):
                     session["admin"]=True
+                    session["user"]=form.email.data
                     return redirect(url_for("adminPage"))
                 else:
+                    session["admin"]=False
                     session["user"]=form.email.data
                     return redirect(url_for("visitPage"))
             else:
@@ -197,7 +204,14 @@ def deletepark():
 
 @app.route('/parks',methods=['GET', 'POST'])
 def parks():
-        return render_template('parks.html',data=data)
+        return render_template('parks.html',data=data,admin=session["admin"])
+
+@app.route('/review/<p>',methods=['GET', 'POST'])
+def review(p):
+        print(p)
+        return render_template('adminLayout.html')
+
+
 
 #finnish
 if __name__ == '__main__':
