@@ -208,8 +208,7 @@ def parks():
 
 @app.route('/review/<p>',methods=['GET', 'POST'])
 def review(p):
-        print(p)
-        return render_template('adminLayout.html')
+        return render_template('comments.html',admin=session["admin"],parkName=p)
 
 
 
