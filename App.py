@@ -6,7 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
-import json 
+import json
 
 
 config={
@@ -211,9 +211,10 @@ def review(p):
         return render_template('comments.html',admin=session["admin"],parkName=p)
 
 
+@app.route('/elements',methods=['GET', 'POST'])
+def elements():
+        return render_template('elements.html',data=data)
 
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
-
-

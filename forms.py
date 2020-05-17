@@ -28,6 +28,11 @@ class DeleteParkForm(FlaskForm):
 
     submit = SubmitField('מחק פארק')
 
+class ElementsForm(FlaskForm):
+    parkName = StringField("שם הפארק", validators=[DataRequired()])
+    parkAddress = StringField("כתובת הפארק", validators=[DataRequired()])
+    submit = SubmitField('מחק פארק')
+
 class signupForm(FlaskForm):
     email = StringField("דואר אלקטרוני")
     password= PasswordField("סיסמא")
