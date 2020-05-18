@@ -75,6 +75,37 @@ def login():
         return render_template('index.html',form=form)
 
 
+commentNum=0
+@app.route('/comment',methods=['GET', 'POST'])
+def comment():
+    global commentNum
+    commentNum=commentNum+1
+    form=commentForm()
+    if form.validate_on_submit():
+        print("hi")
+        email=form.email.data
+        password=form.password.data
+        docs=db.collection(u'Users').stream()
+        for doc in docs:
+            d=doc.to_dict()
+
+            if email==d['email'] and password==d['password']:
+                commentNum=commentNum+1
+                data={'email':email,'password':password,'commentNum':commentNum, 'comment':form.comment.data}
+                print(data)
+                db.collection(u'Comments').document().set(data)
+                print(form.comment.data)
+                print(commentNum)
+                return render_template('comment.html',form=form)
+                break
+
+    print(form.email.data)
+    print("hiyou")
+    return render_template('comment.html',form=form)
+
+
+
+
 
 @app.route('/adminPage',methods=['GET', 'POST'])
 def adminPage():
