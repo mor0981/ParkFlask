@@ -1,5 +1,6 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
 from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,commentForm
+from datetime import datetime
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials
@@ -74,8 +75,28 @@ def login():
             return redirect(url_for("user"))
         return render_template('index.html',form=form)
 
-
 commentNum=0
+
+@app.route('/delete_comment',methods=['GET', 'POST'])
+def delete_comment():
+    form=commentForm()
+    if form.validate_on_submit():
+        docs=db.collection(u'Comments').stream()
+        date=form.date.data
+        time=form.time.data
+        park=form.parkname.data
+        for doc in docs:
+            d=doc.to_dict()
+
+            if date==d['date'] and time==d['time'] and park==d['parkname']:
+
+                db.collection(u'Comments').document(doc.id).delete()
+                return redirect(url_for("homePage"))
+
+    return render_template('delete_comment.html',form=form)
+
+
+
 @app.route('/comment',methods=['GET', 'POST'])
 def comment():
     global commentNum
@@ -83,19 +104,26 @@ def comment():
     form=commentForm()
     if form.validate_on_submit():
         print("hi")
+        now = datetime.now()
+        date=now.strftime("%d/%m/%Y")
+        time=now.strftime("%H:%M:%S")
+        print(date)
+        print(time)
         email=form.email.data
         password=form.password.data
+        parkName=form.parkname.data
         docs=db.collection(u'Users').stream()
         for doc in docs:
             d=doc.to_dict()
 
             if email==d['email'] and password==d['password']:
-                commentNum=commentNum+1
-                data={'email':email,'password':password,'commentNum':commentNum, 'comment':form.comment.data}
+                data={'email':email,'password':password, 'comment':form.comment.data,'time':time,'date':date,'parkName':parkname}
                 print(data)
                 db.collection(u'Comments').document().set(data)
                 print(form.comment.data)
                 print(commentNum)
+                print(date)
+                print(time)
                 return render_template('comment.html',form=form)
                 break
 
