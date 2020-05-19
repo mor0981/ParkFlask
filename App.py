@@ -220,44 +220,30 @@ def review(p):
 ################################### MORAN ######################################
 @app.route('/facilities', methods=['GET', 'POST'])
 def facilities():
-
-        global parkList
         form = facilitiesForm()
         if form.validate_on_submit():
-
 
             parkData = {
                 "name": form.parkNameDB.data,
                 "parkFacility": request.form.getlist('facility')
             }
-            print(parkData.get("parkNameDB"))
-            print(parkData.get("parkFacility"))
 
-            # START EDITING 19/05/20
-
-            # print(parkData)
-            db.collection(u'Facilities').document().set(parkData)
-
-            # WORKS GRATE UP TO HEAR
             docs = db.collection(u'Parks').stream()
             canAddPark = True
             for doc in docs:
                 dici = doc.to_dict()
                 try:
                     if parkData['name'] == dici['Name']:
+                        # Deleting and creating a new park witch will be updated with the new facilities
                         db.collection(u'Parks').document(doc.id).delete()
                         db.collection(u'Parks').document().set(parkData)
                         flash("עדכן מתקנים")
-                        print(f"\n\n\n\n{canAddPark}\n\n\n\n")
                     else:
                         db.collection(u'Parks').document().set(parkData)
                         flash(" עדכן מתקנים בפרק החדש ")
                 except Exception as err:
                     pass
             return redirect(url_for('facilities'))
-
-            # END OF EDIT
-                
         return render_template('facilities.html', data=data, admin=session["admin"], form=form)
 
 
