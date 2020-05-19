@@ -124,7 +124,7 @@ def comment():
                 print(commentNum)
                 print(date)
                 print(time)
-                return render_template('comment.html',form=form)
+                return redirect(url_for("homePage"))
                 break
 
     print(form.email.data)
