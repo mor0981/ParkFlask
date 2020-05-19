@@ -274,6 +274,89 @@ def review(p):
 def elements():
         return render_template('elements.html',data=data)
 
+
+x=0
+def idcount():
+    global x
+    x += 1
+    return x/2
+
+
+
+@app.route("/comment/<int:post_id>")
+def Comment_guest(post_id):
+    #post=db.collection(u'testComments').query.get_or_404(post_id)
+    post=db.collection(u'testComments').where(u'post_id',u'==',1).stream()
+
+   # rpost=post.to_dict()['title']
+    docs = db.collection(u'testComments').stream()
+    canMakePark = True
+    print(post_id)
+    for doc in docs:
+        dici = doc.to_dict()
+        if  dici['post_id']==post_id :
+            canMakePark = False
+            rpost=dici['title']
+            wanted=dici
+    if canMakePark==True:
+        flash("error!")
+        rpost='title'
+        wanted=dici
+    else:
+        rpost=wanted['title']
+
+ 
+    print(post)
+    #post = Post.query.get_or_404(post_id)
+    return render_template('updatePark.html', title=rpost, post=wanted)
+
+
+@app.route("/comment/<int:post_id>/update", methods=['GET', 'POST'])
+def update_comment_guest(post_id):
+    #post=db.collection(u'testComments').query.get_or_404(post_id)
+    docs = db.collection(u'testComments').stream()
+    canMakePark = True
+    for doc in docs:
+        dici = doc.to_dict()
+        if  dici['post_id']==post_id :
+            canMakePark = False
+            rpost=dici['title']
+            idpost=dici['post_id']
+            print(idpost)
+            wanted=dici
+    if canMakePark:
+        abort(403)
+           
+    else:
+        rrpost=rpost
+    ref_comment=db.collection(u'testComments')
+    ref_my=ref_comment.where(u'post_id',u'==',1).stream()
+    for r in ref_my:
+        rr=r.to_dict()['post_id']
+        print(rr)
+    #if post.author != session['user']:
+     #   abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post_title = form.title.data
+        post_content = form.content.data
+        ref_comment=db.collection(u'testComments')
+        ref_my=ref_comment.where(u'post_id',u'==',1).get()
+        field_updates={"title":form.title.data,"content":form.content.data}
+        for r in ref_my:
+            rr=ref_comment.document(r.id)
+            rr.update(field_updates)
+        
+        flash('Your comment has been updated!', 'success')
+        return redirect(url_for('parkHome', post_id=idpost))
+    elif request.method == 'GET':
+        docs
+        form.title.data = wanted['title']
+        form.content.data = wanted['content']
+    return render_template('CreateParkComment.html', title='Update Comment',
+                           form=form, legend='Update Comment')
+
+
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
