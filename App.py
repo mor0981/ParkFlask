@@ -1,5 +1,9 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
+
 from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,commentForm
+=======
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment
+
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials
@@ -74,6 +78,7 @@ def login():
             return redirect(url_for("user"))
         return render_template('index.html',form=form)
 
+
 commentNum=0
 
 @app.route('/delete_comment',methods=['GET', 'POST'])
@@ -129,6 +134,8 @@ def comment():
     print(form.email.data)
     print("hiyou")
     return render_template('comment.html',form=form)
+
+
 
 
 
@@ -264,6 +271,7 @@ def deletepark():
 def parks():
         return render_template('parks.html',data=data,admin=session["admin"])
 
+
 @app.route('/review/<p>',methods=['GET', 'POST'])
 def review(p):
         return render_template('comments.html',admin=session["admin"],parkName=p)
@@ -314,6 +322,7 @@ def Comment_guest(post_id):
     docs = db.collection(u'testComments').stream()
     canMakePark = True
     print(post_id)
+
 @app.route('/comments/<p>',methods=['GET', 'POST'])
 def comments(p):
     form=addComment()
@@ -329,6 +338,7 @@ def comments(p):
         db.collection(u'Comments').document().set(data)
 
     return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form)
+
 
 
 @app.route("/comment/<int:post_id>/update", methods=['GET', 'POST'])
@@ -386,6 +396,8 @@ def delete_comment_guest(post_id):
         rr.delete()
     flash('Your comment has been deleted!', 'success')
     return redirect(url_for('parkHome'))
+
+
 
 
 @app.route("/")
