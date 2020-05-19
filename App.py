@@ -1,15 +1,6 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
-<<<<<<< HEAD
-<<<<<<< HEAD
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment
-=======
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,commentForm
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,commentForm,addComment
 from datetime import datetime
->>>>>>> 028b9f3dfcc70c0de62b07d0f9ec9f38e34470b7
-=======
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,commentForm
-from datetime import datetime
->>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials
@@ -133,11 +124,8 @@ def comment():
                 print(commentNum)
                 print(date)
                 print(time)
-<<<<<<< HEAD
-                return render_template('comment.html',form=form)
-=======
+
                 return redirect(url_for("homePage"))
->>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44
                 break
 
     print(form.email.data)
@@ -292,9 +280,6 @@ def comments(p):
 def elements():
         return render_template('elements.html',data=data)
 
-@app.route('/elements',methods=['GET', 'POST'])
-def elements():
-        return render_template('elements.html',data=data)
 
 #finnish
 if __name__ == '__main__':
