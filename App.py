@@ -1,13 +1,12 @@
-from flask import Flask,render_template,request,flash,session,redirect,url_for,abort
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,commentForm,PostForm
-from datetime import datetime
+from flask import Flask,render_template,request,flash,session,redirect,url_for
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,commentForm
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
-import json
+import json 
 
 
 config={
@@ -34,7 +33,6 @@ firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
 
 
-
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/homePage',methods=['GET', 'POST'])
 def homePage():
@@ -52,6 +50,7 @@ def login():
         try:
             user=auth.sign_in_with_email_and_password(form.email.data,form.password.data)
             uid=auth.get_account_info(user['idToken'])['users'][0]['localId']
+            session["uid"]=uid
             doc_ref=db.collection(u"Users").document(uid)
             doc = doc_ref.get()
             if doc.exists:
@@ -117,7 +116,7 @@ def comment():
             d=doc.to_dict()
 
             if email==d['email'] and password==d['password']:
-                data={'email':email,'password':password, 'comment':form.comment.data,'time':time,'date':date,'parkName':parkname}
+                data={'email':email,'password':password, 'comment':form.comment.data,'time':time,'date':date,'parkName':parkName}
                 print(data)
                 db.collection(u'Comments').document().set(data)
                 print(form.comment.data)
@@ -275,40 +274,61 @@ def elements():
         return render_template('elements.html',data=data)
 
 
+
+
 x=0
 def idcount():
     global x
     x += 1
-    return x/2
+    return x
+
+@app.route("/comment/new", methods=['GET', 'POST'])
+def new_comment_Guset():
+    form=PostForm()
+    data = {
+    "post_id":idcount(),
+    "title":form.title.data,
+    "content": form.content.data,
+    "author": session["user"]
+    }
+    #db.collection(u'Comments').document().set(data)
+    #docs = db.collection(u'Comments').stream()
+    if form.validate_on_submit():
+        db.collection(u'testComments').document().set(data)
+        #newPostRef=db.collection(u'testComments').
+        #post_id = newPostRef.key
+        flash(" תגובה נשלחה  ")
+        return redirect(url_for('new_comment_Guset'))
+    return render_template('CreateParkComment.html', title='New comment',
+                           form=form, legend='New Comment')
+
 
 
 
 @app.route("/comment/<int:post_id>")
 def Comment_guest(post_id):
     #post=db.collection(u'testComments').query.get_or_404(post_id)
-    post=db.collection(u'testComments').where(u'post_id',u'==',1).stream()
+    post=db.collection(u'testComments').where(u'post_id',u'==',post_id).stream()
 
    # rpost=post.to_dict()['title']
     docs = db.collection(u'testComments').stream()
     canMakePark = True
     print(post_id)
+@app.route('/comments/<p>',methods=['GET', 'POST'])
+def comments(p):
+    form=addComment()
+    docs = db.collection(u'Comments').where(u'name', u'==', p).stream()
+    arr=[]
     for doc in docs:
-        dici = doc.to_dict()
-        if  dici['post_id']==post_id :
-            canMakePark = False
-            rpost=dici['title']
-            wanted=dici
-    if canMakePark==True:
-        flash("error!")
-        rpost='title'
-        wanted=dici
-    else:
-        rpost=wanted['title']
+        d=doc.to_dict()
+        d["first"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["name"]
+        d["last"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["last"]
+        arr.append(d)
+    if form.validate_on_submit():
+        data={'name':p,'userId':session["uid"],'text':form.comment.data}
+        db.collection(u'Comments').document().set(data)
 
- 
-    print(post)
-    #post = Post.query.get_or_404(post_id)
-    return render_template('updatePark.html', title=rpost, post=wanted)
+    return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form)
 
 
 @app.route("/comment/<int:post_id>/update", methods=['GET', 'POST'])
@@ -330,7 +350,7 @@ def update_comment_guest(post_id):
     else:
         rrpost=rpost
     ref_comment=db.collection(u'testComments')
-    ref_my=ref_comment.where(u'post_id',u'==',1).stream()
+    ref_my=ref_comment.where(u'post_id',u'==',post_id).stream()
     for r in ref_my:
         rr=r.to_dict()['post_id']
         print(rr)
@@ -341,7 +361,7 @@ def update_comment_guest(post_id):
         post_title = form.title.data
         post_content = form.content.data
         ref_comment=db.collection(u'testComments')
-        ref_my=ref_comment.where(u'post_id',u'==',1).get()
+        ref_my=ref_comment.where(u'post_id',u'==',post_id).get()
         field_updates={"title":form.title.data,"content":form.content.data}
         for r in ref_my:
             rr=ref_comment.document(r.id)
@@ -360,13 +380,21 @@ def update_comment_guest(post_id):
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
 def delete_comment_guest(post_id):
     ref_comment=db.collection(u'testComments')
-    ref_my=ref_comment.where(u'post_id',u'==',1).get()
+    ref_my=ref_comment.where(u'post_id',u'==',post_id).get()
     for r in ref_my:
         rr=ref_comment.document(r.id)
         rr.delete()
     flash('Your comment has been deleted!', 'success')
     return redirect(url_for('parkHome'))
 
+
+@app.route("/")
+@app.route("/parkHome",methods=['GET','POST'])
+def parkHome():
+    posts = db.collection(u'testComments').stream()
+    return render_template('parkHome.html', posts=posts)
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
+
+
