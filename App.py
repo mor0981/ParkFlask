@@ -77,9 +77,10 @@ def login():
 
 commentNum=0
 
-@app.route('/delete_comment',methods=['GET', 'POST'])
+@app.route('/deletecomment',methods=['GET', 'POST'])
 def delete_comment():
     form=commentForm()
+    return render_template('delete_comment.html',form=form)
 
 
 

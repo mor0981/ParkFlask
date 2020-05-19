@@ -53,3 +53,4 @@ class commentForm(FlaskForm):
     date=StringField("תאריך")
     time=StringField("שעה")
     username=StringField("שם משתמש")
+    parkname=StringField("שם הפארק")
