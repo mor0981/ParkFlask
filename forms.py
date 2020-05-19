@@ -50,3 +50,6 @@ class commentForm(FlaskForm):
     password= PasswordField("סיסמא")
     submit=SubmitField("שלח")
     comment=TextAreaField("תגובה")
+    date=StringField("תאריך")
+    time=StringField("שעה")
+    username=StringField("שם משתמש")
