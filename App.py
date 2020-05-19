@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form, facilitiesForm
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials
@@ -32,6 +32,7 @@ db = firestore.client()
 firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
 
+parkList = []
 
 
 @app.route('/',methods=['GET', 'POST'])
@@ -174,6 +175,9 @@ def newpark():
 
         if canMakePark:
             db.collection(u'Parks').document().set(data)
+            # NEW 19/05/2020
+            parkList.append(data["name"])
+            # END
             flash(" יצרת פארק חדש ")
         else:
             flash("לא ניתן ליצור פארק")
@@ -188,6 +192,7 @@ def deletepark():
 
         req = request.form
         parkName = req["parkName"]
+
         parkAddress = req["parkAddress"]
 
         docs = db.collection(u'Parks').stream()
@@ -196,24 +201,71 @@ def deletepark():
             if parkName == dici['name'] and parkAddress == dici['other']:
                 print (f"park {dici['name']} in {dici['other']} has beem deleted")
                 db.collection(u'Parks').document(doc.id).delete()
+                # NEW 19/05/2020
+                parkList.remove(data["name"])
+                # END
                 flash("מחקת פארק")
-
 
         return redirect(url_for('deletepark'))
     return render_template('deletePark.html', form=form)
 
 @app.route('/parks',methods=['GET', 'POST'])
 def parks():
-        return render_template('parks.html',data=data,admin=session["admin"])
+        return render_template('parks.html', data=data, admin=session["admin"])
 
 @app.route('/review/<p>',methods=['GET', 'POST'])
 def review(p):
-        return render_template('comments.html',admin=session["admin"],parkName=p)
+    return render_template('comments.html', admin=session["admin"], parkName=p)
+
+################################### MORAN ######################################
+@app.route('/facilities', methods=['GET', 'POST'])
+def facilities():
+
+        global parkList
+        form = facilitiesForm()
+        if form.validate_on_submit():
 
 
-@app.route('/elements',methods=['GET', 'POST'])
-def elements():
-        return render_template('elements.html',data=data)
+            parkData = {
+                "name": form.parkNameDB.data,
+                "parkFacility": request.form.getlist('facility')
+            }
+            print(parkData.get("parkNameDB"))
+            print(parkData.get("parkFacility"))
+
+            # START EDITING 19/05/20
+
+            # print(parkData)
+            db.collection(u'Facilities').document().set(parkData)
+
+            # WORKS GRATE UP TO HEAR
+            docs = db.collection(u'Parks').stream()
+            canAddPark = True
+            for doc in docs:
+                dici = doc.to_dict()
+                try:
+                    if parkData['name'] == dici['Name']:
+                        db.collection(u'Parks').document(doc.id).delete()
+                        db.collection(u'Parks').document().set(parkData)
+                        flash("עדכן מתקנים")
+                        print(f"\n\n\n\n{canAddPark}\n\n\n\n")
+                    else:
+                        db.collection(u'Parks').document().set(parkData)
+                        flash(" עדכן מתקנים בפרק החדש ")
+                except Exception as err:
+                    pass
+            return redirect(url_for('facilities'))
+
+            # END OF EDIT
+                
+        return render_template('facilities.html', data=data, admin=session["admin"], form=form)
+
+
+################################### MORAN ######################################
+def addData():
+    # UP LOADING ALL PARKS TO FIRE-BASE
+    for i in data:
+        db.collection(u'Parks').document().set({"Name": i['Name'], "Other": i['other']})
 
 #finnish
 if __name__ == '__main__':
