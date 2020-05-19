@@ -77,10 +77,23 @@ def login():
 
 commentNum=0
 
-@app.route('/deletecomment',methods=['GET', 'POST'])
+@app.route('/delete_comment',methods=['GET', 'POST'])
 def delete_comment():
     form=commentForm()
-    return render_template('deletecomment.html',form=form)
+    if form.validate_on_submit():
+        docs=db.collection(u'Comments').stream()
+        date=form.date.data
+        time=form.time.data
+        park=form.parkname.data
+        for doc in docs:
+            d=doc.to_dict()
+
+            if date==d['date'] and time==d['time'] and park==d['parkname']:
+
+                db.collection(u'Comments').document(doc.id).delete()
+                return redirect(url_for("homePage"))
+
+    return render_template('delete_comment.html',form=form)
 
 
 
@@ -98,12 +111,13 @@ def comment():
         print(time)
         email=form.email.data
         password=form.password.data
+        parkName=form.parkname.data
         docs=db.collection(u'Users').stream()
         for doc in docs:
             d=doc.to_dict()
 
             if email==d['email'] and password==d['password']:
-                data={'email':email,'password':password, 'comment':form.comment.data,'time':time,'date':date}
+                data={'email':email,'password':password, 'comment':form.comment.data,'time':time,'date':date,'parkName':parkname}
                 print(data)
                 db.collection(u'Comments').document().set(data)
                 print(form.comment.data)

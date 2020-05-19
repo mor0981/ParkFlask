@@ -49,6 +49,8 @@ class commentForm(FlaskForm):
     email = StringField("דואר אלקטרוני")
     password= PasswordField("סיסמא")
     submit=SubmitField("שלח")
+    submit2=SubmitField("מחק")
+
     comment=TextAreaField("תגובה")
     date=StringField("תאריך")
     time=StringField("שעה")
