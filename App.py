@@ -357,6 +357,16 @@ def update_comment_guest(post_id):
                            form=form, legend='Update Comment')
 
 
+@app.route("/post/<int:post_id>/delete", methods=['POST'])
+def delete_comment_guest(post_id):
+    ref_comment=db.collection(u'testComments')
+    ref_my=ref_comment.where(u'post_id',u'==',1).get()
+    for r in ref_my:
+        rr=ref_comment.document(r.id)
+        rr.delete()
+    flash('Your comment has been deleted!', 'success')
+    return redirect(url_for('parkHome'))
+
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
