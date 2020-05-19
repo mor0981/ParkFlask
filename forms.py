@@ -56,3 +56,9 @@ class commentForm(FlaskForm):
     time=StringField("שעה")
     username=StringField("שם משתמש")
     parkname=StringField("שם הפארק")
+
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')
