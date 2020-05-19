@@ -2,19 +2,115 @@
 {% if admin %}
 {% extends "adminLayout.html" %}
 {% else %}
-{% extends "visitLayout.html" %}  
+{% extends "visitLayout.html" %}
 {% endif %}
 
 {% block content %}
+<<<<<<< HEAD
+<<<<<<< HEAD
+<form method=POST>
+    {{form.hidden_tag()}}
+=======
+
+
+>>>>>>> 028b9f3dfcc70c0de62b07d0f9ec9f38e34470b7
+=======
+
+
+>>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44
 <div style="padding: 10px;text-align: center;">
     <h1>{{parkName}}</h1>
-<!-- {% for i in data %}
-    <a href="{{url_for('review',p=i['Name'])}}">
-        <button style="height:50px;width: 500px;cursor: pointer;box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);border: none;display:list-item;background-color:rgb(248, 241, 241);border-radius: 10px;margin:auto;margin-top: 10px;text-decoration: none;">
-            <h1 style="text-align: center;">{{i['Name']}}</h1>
-        </button>
-    </a>
-{% endfor %} -->
-    <button style="color: #8fd7fc;background-color: white;border: none;cursor: pointer;">הוסף תגובה</button>
+    {% for c in comments %}
+        <div dir="rtl" style="background-color: white;width: 700px;margin: auto;margin-top: 10px;">
+            <div style="flex-direction:row;display: flex;">
+                <h1 style="font-size:large;">{{c['first']}} {{c['last']}}</h1>
+                <div style="border-right: 2px solid blue;"></div>
+                <h1 style="font-size:large;text-align: center;margin-right: 200px;">{{c['text']}}</h1>
+            </div>
+            <div>
+                <h1 style="font-size:large;">{{c['date']}}</h1>
+            </div>
+        </div>
+    {% endfor %}
+    {{form.comment( rows="4",cols="50",dir="rtl",style="margin-top: 10px;")}}
+</div>
+<<<<<<< HEAD
+<div style="justify-content: center;display: flex;align-items: center;">
+    {{form.submit(style="color: #8fd7fc;background-color: white;border: none;cursor: pointer;")}}
+    <!-- <button style="color: #8fd7fc;background-color: white;border: none;cursor: pointer;">הוסף תגובה</button> -->
+</div>
+</form>
+{% endblock content %}
+=======
+
+<div style="padding: 10px;text-align: center;">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/css/bootstrap-select.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+
+  <select class="selectpicker form-control show-tick" multiple data-live-search="false">
+    <option>ספסלים</option>
+    <option>תאורה</option>
+    <option>ברזיות</option>
+    <option>משטח גומי</option>
+    <option>מתקני כושר</option>
+    <option>דשא</option>
+    <option>ממטרות</option>
+    <option>הצללה</option>
+    <option>מגרש כדורגל</option>
+    <option>Relish</option>
+    <option>Relish</option>
+    <option>Relish</option>
+    <option>Relish</option>
+    <option>Relish</option>
+
+  </select>
+
+
+    <!-- <label class="mdb-main-label">Label example</label>
+    <button class="btn-save btn btn-primary btn-sm">Save</button> -->
+</div>
+
+</div>
+<<<<<<< HEAD
+{% endblock content %}
+>>>>>>> 028b9f3dfcc70c0de62b07d0f9ec9f38e34470b7
+=======
+
+<div style="padding: 10px;text-align: center;">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/css/bootstrap-select.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+
+  <select class="selectpicker form-control show-tick" multiple data-live-search="false">
+    <option>ספסלים</option>
+    <option>תאורה</option>
+    <option>ברזיות</option>
+    <option>משטח גומי</option>
+    <option>מתקני כושר</option>
+    <option>דשא</option>
+    <option>ממטרות</option>
+    <option>הצללה</option>
+    <option>מגרש כדורגל</option>
+    <option>Relish</option>
+    <option>Relish</option>
+    <option>Relish</option>
+    <option>Relish</option>
+    <option>Relish</option>
+
+  </select>
+
+
+    <!-- <label class="mdb-main-label">Label example</label>
+    <button class="btn-save btn btn-primary btn-sm">Save</button> -->
+</div>
+
 </div>
 {% endblock content %}
+>>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44

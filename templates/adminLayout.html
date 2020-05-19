@@ -1,6 +1,7 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
+
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>פארקים באר שבע </title>
@@ -19,35 +20,34 @@
             <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/fontawesome-all.min.css') }}">
             <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/themify-icons.css') }}">
             <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/slick.css') }}">
-            <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/nice-select.css') }}">
+            <!-- <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/nice-select.css') }}"> -->
             <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/style.css') }}">
+
    </head>
 
    <body>
-       
+
     <!-- Preloader Start -->
-    
+
     <!-- Preloader Start -->
 
     <header>
         <!-- Header Start -->
        <div class="header-area">
             <div class="main-header ">
-                
+
                <div class="header-bottom  header-sticky">
                     <div class="container-fluid">
                         <div dir="rtl" class="row align-items-center">
                             <!-- Logo -->
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
-                                <div class="logo">
-                                  <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
-                                </div>
+                                
                             </div>
                             <div  class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
                                 <!-- Main-menu -->
                                 <div class="main-menu f-right d-none d-lg-block">
-                                    <nav>                                                
-                                        <ul id="navigation">                                                                                                                                     
+                                    <nav>
+                                        <ul id="navigation">
                                             <li><a href="index.html">דף בית</a></li>
                                             <li><a href="{{url_for('parks')}}">פארקים</a></li>
                                             <li><a href="{{url_for('newpark')}}">הוספת פארק</a></li>
@@ -56,12 +56,12 @@
                                         </ul>
                                     </nav>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-xl-5 col-lg-3 col-md-3 col-sm-3 fix-card">
                                 <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
-                                    
-                                    
-                                    
+
+
+
                                    <li class="d-none d-lg-block"> <a href="{{url_for('logout')}}" class="btn header-btn">התנתק</a></li>
                                 </ul>
                             </div>
@@ -82,24 +82,24 @@
         <!-- slider Area Start -->
         <div class="slider-area ">
             <!-- Mobile Menu -->
-        
+
                 <div class="single-slider slider-height" data-background="{{ url_for('static',filename='createNewPark/assets/img/hero/h1_hero.jpg') }}">
                     {% block content %}
 
                     {% endblock %}
-                    
+
                 </div>
-               
+
         <!-- slider Area End-->
         <!-- Category Area Start-->
-        
+
         <!-- Gallery End-->
 
     </main>
-   
-   
+
+
 	<!-- JS here -->
-	
+
 		<!-- All JS Custom Plugins Link Here here -->
         <script src="{{ url_for('static',filename='createNewPark//assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
 		<!-- Jquery, Popper, Bootstrap -->
@@ -120,19 +120,19 @@
 
 		<!-- Scrollup, nice-select, sticky -->
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.scrollUp.min.js') }}"></script>
-        <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.nice-select.min.js') }}"></script>
-		<script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.sticky.js') }}"></script>
-        
+        <!-- <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.nice-select.min.js') }}"></script>
+		<script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.sticky.js') }}"></script> -->
+
         <!-- contact js -->
         <script src="{{ url_for('static',filename='createNewPark///assets/js/contact.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.form.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.validate.min.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/mail-script.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.ajaxchimp.min.js') }}"></script>
-        
-		<!-- Jquery Plugins, main Jquery -->	
+
+		<!-- Jquery Plugins, main Jquery -->
         <script src="{{ url_for('static',filename='createNewPark///assets/js/plugins.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/main.js') }}"></script>
-        
+
     </body>
 </html>

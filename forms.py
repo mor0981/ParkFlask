@@ -1,5 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField , SubmitField , RadioField
+<<<<<<< HEAD
+<<<<<<< HEAD
+from wtforms import StringField, PasswordField , SubmitField , RadioField,TextAreaField
+=======
+from wtforms import StringField, PasswordField , SubmitField , RadioField,TextAreaField,TextField
+>>>>>>> 028b9f3dfcc70c0de62b07d0f9ec9f38e34470b7
+=======
+from wtforms import StringField, PasswordField , SubmitField , RadioField,TextAreaField,TextField
+>>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44
 from wtforms.validators import DataRequired , Length , Email
 
 class LoginForm(FlaskForm):
@@ -28,6 +36,11 @@ class DeleteParkForm(FlaskForm):
 
     submit = SubmitField('מחק פארק')
 
+class ElementsForm(FlaskForm):
+    parkName = StringField("שם הפארק", validators=[DataRequired()])
+    parkAddress = StringField("כתובת הפארק", validators=[DataRequired()])
+    submit = SubmitField('מחק פארק')
+
 class signupForm(FlaskForm):
     email = StringField("דואר אלקטרוני")
     password= PasswordField("סיסמא")
@@ -39,3 +52,27 @@ class signout2Form(FlaskForm):
     password= PasswordField("סיסמא")
     username = StringField("שם משתמש")
     submit=SubmitField("ביטול מנוי")
+
+<<<<<<< HEAD
+<<<<<<< HEAD
+class addComment(FlaskForm):
+    submit = SubmitField('הוסף תגובה')
+    comment=TextAreaField("רשום תגובה")
+=======
+=======
+>>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44
+class commentForm(FlaskForm):
+    email = StringField("דואר אלקטרוני")
+    password= PasswordField("סיסמא")
+    submit=SubmitField("שלח")
+    submit2=SubmitField("מחק")
+
+    comment=TextAreaField("תגובה")
+    date=StringField("תאריך")
+    time=StringField("שעה")
+    username=StringField("שם משתמש")
+    parkname=StringField("שם הפארק")
+<<<<<<< HEAD
+>>>>>>> 028b9f3dfcc70c0de62b07d0f9ec9f38e34470b7
+=======
+>>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44

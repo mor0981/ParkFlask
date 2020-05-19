@@ -1,12 +1,22 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form
+<<<<<<< HEAD
+<<<<<<< HEAD
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment
+=======
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,commentForm
+from datetime import datetime
+>>>>>>> 028b9f3dfcc70c0de62b07d0f9ec9f38e34470b7
+=======
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,commentForm
+from datetime import datetime
+>>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
-import json 
+import json
 
 
 config={
@@ -33,7 +43,6 @@ firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
 
 
-
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/homePage',methods=['GET', 'POST'])
 def homePage():
@@ -51,6 +60,7 @@ def login():
         try:
             user=auth.sign_in_with_email_and_password(form.email.data,form.password.data)
             uid=auth.get_account_info(user['idToken'])['users'][0]['localId']
+            session["uid"]=uid
             doc_ref=db.collection(u"Users").document(uid)
             doc = doc_ref.get()
             if doc.exists:
@@ -73,6 +83,68 @@ def login():
         if "user" in session:
             return redirect(url_for("user"))
         return render_template('index.html',form=form)
+
+commentNum=0
+
+@app.route('/delete_comment',methods=['GET', 'POST'])
+def delete_comment():
+    form=commentForm()
+    if form.validate_on_submit():
+        docs=db.collection(u'Comments').stream()
+        date=form.date.data
+        time=form.time.data
+        park=form.parkname.data
+        for doc in docs:
+            d=doc.to_dict()
+
+            if date==d['date'] and time==d['time'] and park==d['parkname']:
+
+                db.collection(u'Comments').document(doc.id).delete()
+                return redirect(url_for("homePage"))
+
+    return render_template('delete_comment.html',form=form)
+
+
+
+@app.route('/comment',methods=['GET', 'POST'])
+def comment():
+    global commentNum
+    commentNum=commentNum+1
+    form=commentForm()
+    if form.validate_on_submit():
+        print("hi")
+        now = datetime.now()
+        date=now.strftime("%d/%m/%Y")
+        time=now.strftime("%H:%M:%S")
+        print(date)
+        print(time)
+        email=form.email.data
+        password=form.password.data
+        parkName=form.parkname.data
+        docs=db.collection(u'Users').stream()
+        for doc in docs:
+            d=doc.to_dict()
+
+            if email==d['email'] and password==d['password']:
+                data={'email':email,'password':password, 'comment':form.comment.data,'time':time,'date':date,'parkName':parkname}
+                print(data)
+                db.collection(u'Comments').document().set(data)
+                print(form.comment.data)
+                print(commentNum)
+                print(date)
+                print(time)
+<<<<<<< HEAD
+                return render_template('comment.html',form=form)
+=======
+                return redirect(url_for("homePage"))
+>>>>>>> 2c5acab3c06d869bb00b403aeea9782668cdba44
+                break
+
+    print(form.email.data)
+    print("hiyou")
+    return render_template('comment.html',form=form)
+
+
 
 
 
@@ -206,14 +278,24 @@ def deletepark():
 def parks():
         return render_template('parks.html',data=data,admin=session["admin"])
 
-@app.route('/review/<p>',methods=['GET', 'POST'])
-def review(p):
-        return render_template('comments.html',admin=session["admin"],parkName=p)
+@app.route('/comments/<p>',methods=['GET', 'POST'])
+def comments(p):
+    form=addComment()
+    
+    if form.validate_on_submit():
+        data={'name':p,'userId':session["uid"],'text':form.comment.data}
+        db.collection(u'Comments').document().set(data)
 
+    return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form)
 
+@app.route('/elements',methods=['GET', 'POST'])
+def elements():
+        return render_template('elements.html',data=data)
+
+@app.route('/elements',methods=['GET', 'POST'])
+def elements():
+        return render_template('elements.html',data=data)
 
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
-
-
