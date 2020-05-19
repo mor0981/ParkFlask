@@ -44,7 +44,10 @@ class signout2Form(FlaskForm):
     password= PasswordField("סיסמא")
     username = StringField("שם משתמש")
     submit=SubmitField("ביטול מנוי")
-
+    
+class addComment(FlaskForm):
+    submit = SubmitField('הוסף תגובה')
+    comment=TextAreaField("רשום תגובה")
 class commentForm(FlaskForm):
     email = StringField("דואר אלקטרוני")
     password= PasswordField("סיסמא")
@@ -58,7 +61,10 @@ class commentForm(FlaskForm):
     parkname=StringField("שם הפארק")
 
 
+=======
+
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
+

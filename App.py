@@ -1,5 +1,4 @@
-from flask import Flask,render_template,request,flash,session,redirect,url_for,abort
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,commentForm,PostForm
+
 from datetime import datetime
 import pyrebase
 import firebase_admin
@@ -34,7 +33,6 @@ firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
 
 
-
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/homePage',methods=['GET', 'POST'])
 def homePage():
@@ -52,6 +50,7 @@ def login():
         try:
             user=auth.sign_in_with_email_and_password(form.email.data,form.password.data)
             uid=auth.get_account_info(user['idToken'])['users'][0]['localId']
+            session["uid"]=uid
             doc_ref=db.collection(u"Users").document(uid)
             doc = doc_ref.get()
             if doc.exists:
@@ -124,6 +123,7 @@ def comment():
                 print(commentNum)
                 print(date)
                 print(time)
+
                 return redirect(url_for("homePage"))
                 break
 
@@ -265,16 +265,23 @@ def deletepark():
 def parks():
         return render_template('parks.html',data=data,admin=session["admin"])
 
-@app.route('/review/<p>',methods=['GET', 'POST'])
-def review(p):
-        return render_template('comments.html',admin=session["admin"],parkName=p)
+@app.route('/comments/<p>',methods=['GET', 'POST'])
+def comments(p):
+    form=addComment()
+    
+    if form.validate_on_submit():
+        data={'name':p,'userId':session["uid"],'text':form.comment.data}
+        db.collection(u'Comments').document().set(data)
 
+    return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form)
 
 @app.route('/elements',methods=['GET', 'POST'])
 def elements():
         return render_template('elements.html',data=data)
 
 
+
+=======
 x=0
 def idcount():
     global x
@@ -366,6 +373,7 @@ def delete_comment_guest(post_id):
         rr.delete()
     flash('Your comment has been deleted!', 'success')
     return redirect(url_for('parkHome'))
+
 
 #finnish
 if __name__ == '__main__':
