@@ -8,7 +8,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
 import json
 
-
 config={
   "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
   "authDomain": "parkflask.firebaseapp.com",
@@ -74,7 +73,6 @@ def login():
         if "user" in session:
             return redirect(url_for("user"))
         return render_template('index.html',form=form)
-
 
 
 @app.route('/adminPage',methods=['GET', 'POST'])
@@ -244,7 +242,6 @@ def facilities():
                     pass
             return redirect(url_for('facilities'))
         return render_template('facilities.html', data=data, admin=session["admin"], form=form)
-
 
 def addData():
     # UP LOADING ALL PARKS TO FIRE-BASE
