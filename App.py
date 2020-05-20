@@ -83,8 +83,6 @@ def adminPage():
 def visitPage():
         return render_template('visitPage.html')
 
-
-
 @app.route('/user',methods=['GET', 'POST'])
 def user():
     if "user" in session:
