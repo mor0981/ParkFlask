@@ -12,7 +12,6 @@
 
 <head>
 
-
         <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/flaticon.css') }}">
@@ -39,8 +38,6 @@
 		    <meta name="viewport" content="width=device-width, initial-scale=1">
 		    <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
 		    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static',filename='createNewPark/assets/img/favicon.ico')}}">
-
-
 
 </head>
 
@@ -81,31 +78,31 @@
                       </div>
                       {% endfor %}
 
-
                         <form class="form-contact contact_form form-group mt-3" method="post" action="">
                           {{ form.hidden_tag() }}
                           {{form.csrf_token}}
                             <div class="row">
                                 <div class="col-sm-6" >
+<!--                                    select park name from database-->
                                          <select id="parkNameDB" name="parkNameDB" class="selectpicker form-control" data-live-search="True" >
                                              {% for i in data %}
                                                 <option> {{i['Name']}} </option>
                                              {% endfor %}
                                          </select>
-
+<!--select facilities-->
                                         <select id= "facility" name="facility" class="selectpicker form-control" multiple data-live-search="True" >
                                             <option value="ספסלים">ספסלים</option>
                                             <option value="תאורה">תאורה</option>
                                             <option value="ברזיות">ברזיות</option>
-                                            <option value="משטח גומי">משטח גומי</option>
                                             <option value="מתקני כושר">מתקני כושר</option>
                                             <option value="דשא">דשא</option>
                                             <option value="ממטרות">ממטרות</option>
                                             <option value="הצללה">הצללה</option>
+                                            <option value="משטח גומי">משטח גומי</option>
                                             <option value="מגרש כדורגל">מגרש כדורגל</option>
-                                            <option value="שירותים ציבוריים">שירותים ציבוריים</option>
                                             <option value="שבילים">שבילים</option>
                                             <option value="מתקני ילדים">מתקני ילדים</option>
+                                            <option value="שירותים ציבוריים">שירותים ציבוריים</option>
                                             <option value="מגלשה">מגלשה</option>
                                             <option value="נדנדות">נדנדות</option>
                                         </select>
