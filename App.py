@@ -50,7 +50,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         try:
-            user=auth.sign_in_with_email_and_password(form.email.data,form.password.data)
+            user=auth.sign_in_with_email_and_password(form.email.data, form.password.data)
             uid=auth.get_account_info(user['idToken'])['users'][0]['localId']
             doc_ref=db.collection(u"Users").document(uid)
             doc = doc_ref.get()
@@ -222,25 +222,25 @@ def review(p):
 def facilities():
         form = facilitiesForm()
         if form.validate_on_submit():
-
+            docs = db.collection(u'Parks').stream()
             parkData = {
                 "name": form.parkNameDB.data,
                 "parkFacility": request.form.getlist('facility')
             }
-
-            docs = db.collection(u'Parks').stream()
-            canAddPark = True
+            canAddPark = False
             for doc in docs:
                 dici = doc.to_dict()
                 try:
-                    if parkData['name'] == dici['Name']:
+                    if parkData['name'] == dici['name']:
+                        canAddPark = True
+
+                    if canAddPark:
                         # Deleting and creating a new park witch will be updated with the new facilities
                         db.collection(u'Parks').document(doc.id).delete()
                         db.collection(u'Parks').document().set(parkData)
                         flash("עדכן מתקנים")
-                    else:
-                        db.collection(u'Parks').document().set(parkData)
-                        flash(" עדכן מתקנים בפרק החדש ")
+                        break
+
                 except Exception as err:
                     pass
             return redirect(url_for('facilities'))
@@ -251,7 +251,8 @@ def facilities():
 def addData():
     # UP LOADING ALL PARKS TO FIRE-BASE
     for i in data:
-        db.collection(u'Parks').document().set({"Name": i['Name'], "Other": i['other']})
+        db.collection(u'Parks').document().set({"name": i['Name']})
+        # db.collection(u'Parks').document().set({"name": i['Name'], "Other": i['other']})
 
 #finnish
 if __name__ == '__main__':

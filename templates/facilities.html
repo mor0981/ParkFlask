@@ -86,12 +86,13 @@
                           {{ form.hidden_tag() }}
                           {{form.csrf_token}}
                             <div class="row">
-                                <div class="col-sm-6">
-                                         <select id="parkNameDB" name="parkNameDB" class=" selectpicker form-control "  data-live-search="True">
+                                <div class="col-sm-6" >
+                                         <select id="parkNameDB" name="parkNameDB" class="selectpicker form-control" data-live-search="True" >
                                              {% for i in data %}
                                                 <option> {{i['Name']}} </option>
                                              {% endfor %}
                                          </select>
+
 
                                         <select id= "facility" name="facility" class="selectpicker form-control" multiple data-live-search="True" >
                                             <option value="benchs">ספסלים</option>
