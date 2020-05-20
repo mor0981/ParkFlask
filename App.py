@@ -246,6 +246,12 @@ def facilities():
         return render_template('facilities.html', data=data, admin=session["admin"], form=form)
 
 
+def addData():
+    # UP LOADING ALL PARKS TO FIRE-BASE
+    for i in data:
+        db.collection(u'Parks').document().set({"name": i['Name']})
+        # db.collection(u'Parks').document().set({"name": i['Name'], "Other": i['other']})
+
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
