@@ -46,6 +46,16 @@
                             <div  class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
                                 <!-- Main-menu -->
                                 <div class="main-menu f-right d-none d-lg-block">
+
+                                    <nav>
+                                        <ul id="navigation">
+                                          <li><a href="{{url_for('adminPage')}}">דף בית</a></li>
+                                          <li><a href="{{url_for('parks')}}">פארקים</a></li>
+                                          <li><a href="{{url_for('newpark')}}">הוספת פארק</a></li>
+                                          <li><a href="{{url_for('deletepark')}}">מחיקת פארק</a></li>
+                                          <li><a href="{{url_for('facilities')}}">מתקנים</a></li>
+                                          <li><a href="contact.html">אודות</a></li>
+=======
                                     <nav>                                                
                                         <ul id="navigation">                                                                                                                                     
                                             <li><a href="index.html">דף בית</a></li>
@@ -53,6 +63,7 @@
                                             <li><a href="{{url_for('newpark')}}">הוספת פארק</a></li>
                                             <li><a href="{{url_for('deletepark')}}">מחיקת פארק</a></li>
                                             <li><a href="contact.html">אודות</a></li>
+
                                         </ul>
                                     </nav>
                                 </div>

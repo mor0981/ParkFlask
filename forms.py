@@ -28,6 +28,7 @@ class DeleteParkForm(FlaskForm):
 
     submit = SubmitField('מחק פארק')
 
+
 class signupForm(FlaskForm):
     email = StringField("דואר אלקטרוני")
     password= PasswordField("סיסמא")

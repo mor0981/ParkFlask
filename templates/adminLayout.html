@@ -22,12 +22,10 @@
             <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/nice-select.css') }}">
             <link rel="stylesheet" href="{{ url_for('static',filename='createNewPark/assets/css/style.css') }}">
    </head>
-
    <body>
        
     <!-- Preloader Start -->
-    
-    <!-- Preloader Start -->
+
 
     <header>
         <!-- Header Start -->
@@ -37,6 +35,15 @@
                <div class="header-bottom  header-sticky">
                     <div class="container-fluid">
                         <div dir="rtl" class="row align-items-center">
+
+
+                            <div  class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
+                                <!-- Main-menu -->
+                                <div class="main-menu f-right d-none d-lg-block">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li><a href="{{url_for('adminPage')}}">דף בית</a></li>
+=======
                             <!-- Logo -->
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
                                 
@@ -47,9 +54,11 @@
                                     <nav>                                                
                                         <ul id="navigation">                                                                                                                                     
                                             <li><a href="index.html">דף בית</a></li>
+
                                             <li><a href="{{url_for('parks')}}">פארקים</a></li>
                                             <li><a href="{{url_for('newpark')}}">הוספת פארק</a></li>
                                             <li><a href="{{url_for('deletepark')}}">מחיקת פארק</a></li>
+                                            <li><a href="{{url_for('facilities')}}">מתקנים</a></li>
                                             <li><a href="contact.html">אודות</a></li>
                                         </ul>
                                     </nav>
@@ -120,7 +129,7 @@
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.scrollUp.min.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.nice-select.min.js') }}"></script>
 		<script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.sticky.js') }}"></script>
-        
+
         <!-- contact js -->
         <script src="{{ url_for('static',filename='createNewPark///assets/js/contact.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.form.js') }}"></script>
