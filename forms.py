@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField , SubmitField , RadioField
+from wtforms import StringField, PasswordField , SubmitField , RadioField,TextAreaField
 from wtforms.validators import DataRequired , Length , Email
 
 class LoginForm(FlaskForm):
@@ -28,11 +28,6 @@ class DeleteParkForm(FlaskForm):
 
     submit = SubmitField('מחק פארק')
 
-class facilitiesForm(FlaskForm):
-    parkName = StringField("שם הפארק")
-    parkNameDB = StringField("שם הפארק")
-    facilities = StringField("מתקנים")
-    submit = SubmitField('אישור')
 
 class signupForm(FlaskForm):
     email = StringField("דואר אלקטרוני")
@@ -45,3 +40,7 @@ class signout2Form(FlaskForm):
     password= PasswordField("סיסמא")
     username = StringField("שם משתמש")
     submit=SubmitField("ביטול מנוי")
+
+class addComment(FlaskForm):
+    submit = SubmitField('הוסף תגובה')
+    comment=TextAreaField("רשום תגובה")
