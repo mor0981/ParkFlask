@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm
 =======
@@ -9,6 +10,9 @@ from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,si
 <<<<<<< Updated upstream
 =======
 >>>>>>> ab1471228fe146bf16f41e5a8183d11a56f0e97a
+>>>>>>> Stashed changes
+=======
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm
 >>>>>>> Stashed changes
 import pyrebase
 import firebase_admin
@@ -283,6 +287,7 @@ def addData():
         # db.collection(u'Parks').document().set({"name": i['Name'], "Other": i['other']})
 
 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 =======
 
@@ -423,6 +428,8 @@ def parkHome():
     posts = db.collection(u'testComments').stream()
     return render_template('parkHome.html', posts=posts)
 >>>>>>> ab1471228fe146bf16f41e5a8183d11a56f0e97a
+=======
+>>>>>>> Stashed changes
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
