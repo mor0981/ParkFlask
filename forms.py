@@ -46,25 +46,10 @@ class addComment(FlaskForm):
 
 class updateComment(FlaskForm):
     submit = SubmitField('הוסף תגובה')
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    comment=TextAreaField("עדכן תגובה")
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
     comment=TextAreaField("עדכן תגובה")
 
 class facilitiesForm(FlaskForm):
     parkName = StringField("שם הפארק")
     parkNameDB = StringField("שם הפארק")
     facilities = StringField("מתקנים")
-<<<<<<< Updated upstream
     submit = SubmitField('אישור')
-=======
-    comment=TextAreaField("עדכן תגובה")
->>>>>>> ab1471228fe146bf16f41e5a8183d11a56f0e97a
->>>>>>> Stashed changes
-=======
-    submit = SubmitField('אישור')
->>>>>>> Stashed changes

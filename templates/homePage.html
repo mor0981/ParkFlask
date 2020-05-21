@@ -33,35 +33,22 @@
         <!-- Header Start -->
        <div class="header-area">
             <div class="main-header ">
-                
-               <div class="header-bottom  header-sticky">
+               <div class="header-bottom  header-sticky"></div>
                     <div class="container-fluid">
                         <div dir="rtl" class="row align-items-center">
                             <!-- Logo -->
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
-                                
+                                <div class="logo">
+                                  <a ><img width="50" height="50" src="{{url_for('static',filename='createNewPark/assets/img/b7.png')}}" alt=""></a>
+                                </div>
                             </div>
                             <div  class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
                                 <!-- Main-menu -->
-                                <div class="main-menu f-right d-none d-lg-block">
-                                    <nav>                                                
-                                        <ul id="navigation">                                                                                                                                     
-                                            <li><a href="{{url_for('homePage')}}">דף בית</a></li>
-                                            <li><a href="{{url_for('parks')}}">פארקים</a></li>
-                                            <li><a href="{{url_for('newpark')}}">הוספת פארק</a></li>
-                                            <li><a href="{{url_for('deletepark')}}">מחיקת פארק</a></li>
-                                            <li><a href="{{url_for('facilities')}}">מתקנים</a></li>
-                                            <li><a href="contact.html">אודות</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                                <div></div>
                             </div> 
                             <div class="col-xl-5 col-lg-3 col-md-3 col-sm-3 fix-card">
                                 <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
-                                    
-                                    
-                                    
-                                   <li class="d-none d-lg-block"> <a href="{{url_for('logout')}}" class="btn header-btn">התנתק</a></li>
+                                   <li class="d-none d-lg-block"> <a href="{{url_for('login')}}" class="btn header-btn">התחבר</a></li>
                                 </ul>
                             </div>
                             <!-- Mobile Menu -->
@@ -79,14 +66,29 @@
     <main>
 
         <!-- slider Area Start -->
-        <div class="slider-area ">
+        <div class="slider-area "  style="height: 10;">
             <!-- Mobile Menu -->
-        
+            <div class="slider-active">
                 <div class="single-slider slider-height" data-background="{{ url_for('static',filename='createNewPark/assets/img/hero/h1_hero.jpg') }}">
-                    {% block content %}
-
-                    {% endblock %}
-                    
+                    <div class="container">
+                        <div class="row d-flex align-items-center justify-content-between">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 d-none d-md-block">
+                                <div class="hero__img" data-animation="bounceIn" data-delay=".4s">
+                                    <img src="{{ url_for('static',filename='createNewPark/assets/img/hero/hero_man.png') }}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-8">
+                                <div class="hero__caption">
+                                    <h1 dir="rtl" data-animation="fadeInRight" data-delay=".6s">ברוכים <br> הבאים</h1>
+                                    <p dir="rtl" data-animation="fadeInRight" data-delay=".8s">אתר הפארקים של באר שבע!</p>
+                                    <!-- Hero-btn -->
+                                    <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                                        <a href="{{url_for('register')}}" class="btn hero-btn">הרשם עכשיו</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                
         <!-- slider Area End-->

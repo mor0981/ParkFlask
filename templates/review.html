@@ -39,18 +39,17 @@
                         <div dir="rtl" class="row align-items-center">
                             <!-- Logo -->
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
-                                
+                                <div class="logo">
+                                  <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                                </div>
                             </div>
                             <div  class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
                                 <!-- Main-menu -->
                                 <div class="main-menu f-right d-none d-lg-block">
                                     <nav>                                                
                                         <ul id="navigation">                                                                                                                                     
-                                            <li><a href="{{url_for('homePage')}}">דף בית</a></li>
-                                            <li><a href="{{url_for('parks')}}">פארקים</a></li>
-                                            <li><a href="{{url_for('newpark')}}">הוספת פארק</a></li>
-                                            <li><a href="{{url_for('deletepark')}}">מחיקת פארק</a></li>
-                                            <li><a href="{{url_for('facilities')}}">מתקנים</a></li>
+                                            <li><a href="index.html">דף בית</a></li>
+                                            <li><a href="Catagori.html">פארקים</a></li>
                                             <li><a href="contact.html">אודות</a></li>
                                         </ul>
                                     </nav>
@@ -62,6 +61,7 @@
                                     
                                     
                                    <li class="d-none d-lg-block"> <a href="{{url_for('logout')}}" class="btn header-btn">התנתק</a></li>
+                                   <li class="d-none d-lg-block"> <a href="{{url_for('unregister')}}" class="btn header-btn">מחק משתמש</a></li>
                                 </ul>
                             </div>
                             <!-- Mobile Menu -->
@@ -76,30 +76,23 @@
         <!-- Header End -->
     </header>
 
-    <main>
-
-        <!-- slider Area Start -->
-        <div class="slider-area ">
-            <!-- Mobile Menu -->
-        
-                <div class="single-slider slider-height" data-background="{{ url_for('static',filename='createNewPark/assets/img/hero/h1_hero.jpg') }}">
-                    {% block content %}
-
-                    {% endblock %}
-                    
-                </div>
+    <main>  
+        <div class="single-slider slider-height" data-background="{{ url_for('static',filename='createNewPark/assets/img/hero/h1_hero.jpg') }}">
+            <div style="padding: 10px;">
                
-        <!-- slider Area End-->
-        <!-- Category Area Start-->
-        
-        <!-- Gallery End-->
-
+            </div>
+        </div>
     </main>
    
    
 	<!-- JS here -->
 	
-		<!-- All JS Custom Plugins Link Here here -->
+        <!-- All JS Custom Plugins Link Here here -->
+        <script>
+            function mor(i){
+                window.location.href = "{{url_for('unregister')}}"
+            }
+        </script>
         <script src="{{ url_for('static',filename='createNewPark//assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
 		<!-- Jquery, Popper, Bootstrap -->
 		<script src="{{ url_for('static',filename='createNewPark//assets/js/vendor/jquery-1.12.4.min.js') }}"></script>
