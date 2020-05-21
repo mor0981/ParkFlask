@@ -1,8 +1,15 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
+<<<<<<< HEAD
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm
+=======
 
 =======
 
 >>>>>
+<<<<<<< Updated upstream
+=======
+>>>>>>> ab1471228fe146bf16f41e5a8183d11a56f0e97a
+>>>>>>> Stashed changes
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials
@@ -10,6 +17,7 @@ from firebase_admin import firestore
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
 import json 
+
 
 config={
   "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
@@ -34,7 +42,6 @@ db = firestore.client()
 firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
 
-parkList = []
 
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/homePage',methods=['GET', 'POST'])
@@ -51,7 +58,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         try:
-            user=auth.sign_in_with_email_and_password(form.email.data, form.password.data)
+            user=auth.sign_in_with_email_and_password(form.email.data,form.password.data)
             uid=auth.get_account_info(user['idToken'])['users'][0]['localId']
             session["uid"]=uid
             doc_ref=db.collection(u"Users").document(uid)
@@ -79,69 +86,6 @@ def login():
 
 
 
-commentNum=0
-
-@app.route('/delete_comment',methods=['GET', 'POST'])
-def delete_comment():
-    form=commentForm()
-    if form.validate_on_submit():
-        docs=db.collection(u'Comments').stream()
-        date=form.date.data
-        time=form.time.data
-        park=form.parkname.data
-        for doc in docs:
-            d=doc.to_dict()
-
-            if date==d['date'] and time==d['time'] and park==d['parkname']:
-
-                db.collection(u'Comments').document(doc.id).delete()
-                return redirect(url_for("homePage"))
-
-    return render_template('delete_comment.html',form=form)
-
-
-
-@app.route('/comment',methods=['GET', 'POST'])
-def comment():
-    global commentNum
-    commentNum=commentNum+1
-    form=commentForm()
-    if form.validate_on_submit():
-        print("hi")
-        now = datetime.now()
-        date=now.strftime("%d/%m/%Y")
-        time=now.strftime("%H:%M:%S")
-        print(date)
-        print(time)
-        email=form.email.data
-        password=form.password.data
-        parkName=form.parkname.data
-        docs=db.collection(u'Users').stream()
-        for doc in docs:
-            d=doc.to_dict()
-
-            if email==d['email'] and password==d['password']:
-                data={'email':email,'password':password, 'comment':form.comment.data,'time':time,'date':date,'parkName':parkName}
-                print(data)
-                db.collection(u'Comments').document().set(data)
-                print(form.comment.data)
-                print(commentNum)
-                print(date)
-                print(time)
-                return redirect(url_for("homePage"))
-                break
-
-    print(form.email.data)
-    print("hiyou")
-    return render_template('comment.html',form=form)
-
-
-
-
-
-
-
-
 @app.route('/adminPage',methods=['GET', 'POST'])
 def adminPage():
         return render_template('adminPage.html')
@@ -149,6 +93,8 @@ def adminPage():
 @app.route('/visitPage',methods=['GET', 'POST'])
 def visitPage():
         return render_template('visitPage.html')
+
+
 
 @app.route('/user',methods=['GET', 'POST'])
 def user():
@@ -238,9 +184,6 @@ def newpark():
 
         if canMakePark:
             db.collection(u'Parks').document().set(data)
-            # NEW 19/05/2020
-            parkList.append(data["name"])
-            # END
             flash(" יצרת פארק חדש ")
         else:
             flash("לא ניתן ליצור פארק")
@@ -255,7 +198,6 @@ def deletepark():
 
         req = request.form
         parkName = req["parkName"]
-
         parkAddress = req["parkAddress"]
 
         docs = db.collection(u'Parks').stream()
@@ -264,22 +206,47 @@ def deletepark():
             if parkName == dici['name'] and parkAddress == dici['other']:
                 print (f"park {dici['name']} in {dici['other']} has beem deleted")
                 db.collection(u'Parks').document(doc.id).delete()
-                # NEW 19/05/2020
-                parkList.remove(data["name"])
-                # END
                 flash("מחקת פארק")
+
 
         return redirect(url_for('deletepark'))
     return render_template('deletePark.html', form=form)
 
 @app.route('/parks',methods=['GET', 'POST'])
 def parks():
-        return render_template('parks.html', data=data, admin=session["admin"])
+        return render_template('parks.html',data=data,admin=session["admin"])
 
+@app.route('/comments/<p>',methods=['GET', 'POST'])
+def comments(p):
+    form=addComment()
+    docs = db.collection(u'Comments').where(u'name', u'==', p).stream()
+    arr=[]
+    for doc in docs:
+        d=doc.to_dict()
+        d["first"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["name"]
+        d["last"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["last"]
+        d["post_id"]=doc.id
+        arr.append(d)
+    if form.validate_on_submit():
+        data={'name':p,'userId':session["uid"],'text':form.comment.data}
+        db.collection(u'Comments').document().set(data)
+        return redirect(request.referrer)
+    return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form,now=session["uid"])
 
-@app.route('/review/<p>',methods=['GET', 'POST'])
-def review(p):
-    return render_template('comments.html', admin=session["admin"], parkName=p)
+@app.route('/comments/<post_id>/delete',methods=['GET', 'POST'])
+def delete_comments(post_id):
+    db.collection(u'Comments').document(post_id).delete()
+    return redirect(url_for('parks'))
+
+@app.route('/comments/<post_id>/<text>/update',methods=['GET', 'POST'])
+def update_comments(post_id,text):
+    form=updateComment()
+    if form.validate_on_submit():
+        data={'text':form.comment.data}
+        db.collection(u'Comments').document(post_id).update(data)
+        return redirect(url_for('parks'))
+    return render_template('updateComment.html',form=form,admin=session["admin"],text=text)
+
 
 @app.route('/facilities', methods=['GET', 'POST'])
 def facilities():
@@ -316,6 +283,8 @@ def addData():
         # db.collection(u'Parks').document().set({"name": i['Name'], "Other": i['other']})
 
 
+<<<<<<< HEAD
+=======
 
 
 x=0
@@ -453,6 +422,7 @@ def delete_comment_guest(post_id):
 def parkHome():
     posts = db.collection(u'testComments').stream()
     return render_template('parkHome.html', posts=posts)
+>>>>>>> ab1471228fe146bf16f41e5a8183d11a56f0e97a
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
