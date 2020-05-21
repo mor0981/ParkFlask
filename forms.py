@@ -44,3 +44,7 @@ class signout2Form(FlaskForm):
 class addComment(FlaskForm):
     submit = SubmitField('הוסף תגובה')
     comment=TextAreaField("רשום תגובה")
+
+class updateComment(FlaskForm):
+    submit = SubmitField('הוסף תגובה')
+    comment=TextAreaField("עדכן תגובה")

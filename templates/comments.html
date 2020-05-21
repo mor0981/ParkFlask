@@ -16,6 +16,12 @@
                 <h1 style="font-size:large;">{{c['first']}} {{c['last']}}</h1>
                 <div style="border-right: 2px solid blue;"></div>
                 <h1 style="font-size:large;text-align: center;margin-right: 200px;">{{c['text']}}</h1>
+            {% if admin or now==c['userId'] %}
+                <a href="{{url_for('delete_comments',post_id=c['post_id'])}}" style="color: red;margin-right: 20px;">מחק</a>
+            {% endif %}
+            {% if now==c['userId'] %}
+                <a href="{{url_for('update_comments',post_id=c['post_id'],text=c['text'])}}" style="color: blue;margin-right: 20px;">עדכן</a>
+            {% endif %}
             </div>
             <div>
                 <h1 style="font-size:large;">{{c['date']}}</h1>

@@ -1,5 +1,8 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
 
+=======
+
+>>>>>
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials
@@ -363,13 +366,27 @@ def comments(p):
         d=doc.to_dict()
         d["first"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["name"]
         d["last"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["last"]
+        d["post_id"]=doc.id
         arr.append(d)
     if form.validate_on_submit():
         data={'name':p,'userId':session["uid"],'text':form.comment.data}
         db.collection(u'Comments').document().set(data)
+        return redirect(request.referrer)
+    return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form,now=session["uid"])
 
-    return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form)
+@app.route('/comments/<post_id>/delete',methods=['GET', 'POST'])
+def delete_comments(post_id):
+    db.collection(u'Comments').document(post_id).delete()
+    return redirect(url_for('parks'))
 
+@app.route('/comments/<post_id>/<text>/update',methods=['GET', 'POST'])
+def update_comments(post_id,text):
+    form=updateComment()
+    if form.validate_on_submit():
+        data={'text':form.comment.data}
+        db.collection(u'Comments').document(post_id).update(data)
+        return redirect(url_for('parks'))
+    return render_template('updateComment.html',form=form,admin=session["admin"],text=text)
 
 
 @app.route("/comment/<int:post_id>/update", methods=['GET', 'POST'])
