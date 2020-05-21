@@ -28,6 +28,7 @@ class DeleteParkForm(FlaskForm):
 
     submit = SubmitField('מחק פארק')
 
+
 class signupForm(FlaskForm):
     email = StringField("דואר אלקטרוני")
     password= PasswordField("סיסמא")
@@ -43,3 +44,7 @@ class signout2Form(FlaskForm):
 class addComment(FlaskForm):
     submit = SubmitField('הוסף תגובה')
     comment=TextAreaField("רשום תגובה")
+
+class updateComment(FlaskForm):
+    submit = SubmitField('הוסף תגובה')
+    comment=TextAreaField("עדכן תגובה")
