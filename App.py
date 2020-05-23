@@ -2,13 +2,14 @@ from flask import Flask,render_template,request,flash,session,redirect,url_for
 from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm
 import pyrebase
 import firebase_admin
+from firebase_admin import auth
 from firebase_admin import credentials
 from firebase_admin import firestore
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
 import json 
 
-
+print(firebase_admin)
 config={
   "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
   "authDomain": "parkflask.firebaseapp.com",
@@ -24,7 +25,6 @@ with open('playgrounds.json', 'r',encoding="utf8") as myfile:
     data=json.loads(myfile.read())
 
 cred = credentials.Certificate('parkflask-firebase-adminsdk-wplsp-87a9bb6106.json')
-print(cred)
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -45,8 +45,11 @@ def homePage():
 
 @app.route('/login',methods=['GET', 'POST'])
 def login():
+    print("login")
     form = LoginForm()
-    if form.validate_on_submit():
+    if request.method == 'POST':
+    # if form.validate_on_submit():
+        print("click")
         try:
             user=auth.sign_in_with_email_and_password(form.email.data,form.password.data)
             uid=auth.get_account_info(user['idToken'])['users'][0]['localId']
@@ -63,15 +66,15 @@ def login():
                     session["admin"]=False
                     session["user"]=form.email.data
                     return redirect(url_for("visitPage"))
-            else:
-                print(u'No such document!')
-            # session["user"]=form.email.data
-            # return redirect(url_for("user"))
         except:
             return render_template('index.html',form=form,us="Not Exist")
     else:
         if "user" in session:
-            return redirect(url_for("user"))
+            if(session["admin"]):
+                return redirect(url_for("adminPage"))
+            else:
+                return redirect(url_for("visitPage"))
+        print("gggggg")
         return render_template('index.html',form=form)
 
 
@@ -98,26 +101,28 @@ def user():
 
 @app.route('/logout')
 def logout():
+    print("logout")
     session.pop("user",None)
+    flash("התנתקת בהצלחה")
     return redirect(url_for("homePage"))
 
 @app.route('/register',methods=['GET', 'POST'])
 def register():
     form=signupForm()
-    if form.validate_on_submit():
+    if request.method == 'POST':
         email=form.email.data
         password=form.password.data
-        username=form.username.data
+        name=form.name.data
+        last=form.last.data
         user=auth.create_user_with_email_and_password(email,password)
-        data={"username":username,"email":email,"password":password,"admin":False}
+        data={"name":name,"last":last,"email":email,"password":password,"admin":False}
         #db.child("Guest").push(data)
         #data2={"name":"1","other":email,"shadowing":"123"}
         #db.child("Parks").push(data2)
         print(auth.get_account_info(user['idToken'])['users'][0]['localId'])
         info=auth.get_account_info(user['idToken'])['users'][0]['localId']
         db.collection(u'Users').document(info).set(data)
-
-        return redirect(url_for("visitPage"))
+        return redirect(url_for("login"))
     return render_template('basic.html',form=form)
 
 #signup
@@ -129,19 +134,21 @@ def signup():
 @app.route('/unregister',methods=['GET', 'POST'])
 def unregister():
     form=signout2Form()
-    if form.validate_on_submit():
+    if request.method == 'POST':
         print("in if1")
         email=form.email.data
-        print(email)
         password=form.password.data
-        username=form.username.data
         docs=db.collection(u'Users').stream()
         for doc in docs:
             d=doc.to_dict()
-            print(d)
             if email==d['email'] and password==d['password']:
-                print("if2")
-                db.collection(u'Users').document(doc.id).delete()
+                user_id=doc.id
+                docs = db.collection(u'Comments').where(u'userId', u'==', user_id).stream()
+                for doc in docs:
+                    doc.reference.delete()
+                firebase_admin.auth.delete_user(user_id)
+                db.collection(u'Users').document(user_id).delete()
+                session.pop("user",None)
                 return redirect(url_for("homePage"))
         #user=auth.create_user_with_email_and_password(email,password)
         #data={"username":username,"email":email,"password":password}
@@ -217,7 +224,7 @@ def comments(p):
         d["last"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["last"]
         d["post_id"]=doc.id
         arr.append(d)
-    if form.validate_on_submit():
+    if request.method == 'POST':
         data={'name':p,'userId':session["uid"],'text':form.comment.data}
         db.collection(u'Comments').document().set(data)
         return redirect(request.referrer)

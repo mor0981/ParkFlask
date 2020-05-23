@@ -78,6 +78,14 @@
                                 </div>
                             </div>
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-8">
+                                {% for mess in get_flashed_messages() %}
+                      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{mess}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      {% endfor %}
                                 <div class="hero__caption">
                                     <h1 dir="rtl" data-animation="fadeInRight" data-delay=".6s">ברוכים <br> הבאים</h1>
                                     <p dir="rtl" data-animation="fadeInRight" data-delay=".8s">אתר הפארקים של באר שבע!</p>
