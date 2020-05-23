@@ -277,7 +277,6 @@ def addData():
     # UP LOADING ALL PARKS TO FIRE-BASE
     for i in data:
         db.collection(u'Parks').document().set({"name": i['Name']})
-        # db.collection(u'Parks').document().set({"name": i['Name'], "Other": i['other']})
 
 
 #finnish
