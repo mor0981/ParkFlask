@@ -6,16 +6,15 @@ import json
 
 class TestHello(unittest.TestCase):
     #User login with correct details
-    def setUp(self):
-        app.testing = True
-        self.app = app.test_client()
+    # def setUp(self):
+    #     app.testing = True
+    #     self.app = app.test_client()
 
-    def test_homePage(self):
-        rv = self.app.get('/')
-        self.assertEqual(rv.status, '200 OK')
+    # def test_homePage(self):
+    #     rv = self.app.get('/')
+    #     self.assertEqual(rv.status, '200 OK')
 
     
-
     def test_login_logout(self):
         taster = app.test_client(self)
         rv = taster.post('/login' , data=dict(email="mor0981@gmail.com",password="123456"),follow_redirects=True)

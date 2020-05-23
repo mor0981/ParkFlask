@@ -9,6 +9,7 @@ pipeline {
             sh 'pip install --user Flask-WTF'
             sh 'pip install --user email_validator'
             sh 'pip install --user --upgrade firebase-admin'
+            sh 'pip install --user json-e'
         }
       }
     }
@@ -23,7 +24,6 @@ pipeline {
     stage('test') {
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]){
-            sh 'pip install --user pyrebase'
             sh 'python test2.py'
         }
       }   
