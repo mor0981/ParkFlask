@@ -398,6 +398,37 @@ def AllGuest():
     guets = db.collection(u'Users').stream()
     return render_template('AllUsers.html', guests=guets)
 
+
+
+
+@app.route("/Guests/<string:email>")
+def Option_guest(email):
+    #post=db.collection(u'testComments').query.get_or_404(post_id)
+    post=db.collection(u'Users').where(u'email',u'==',email).stream()
+
+   # rpost=post.to_dict()['title']
+    docs = db.collection(u'Users').stream()
+    canMakePark = True
+    #print(post_id)
+    for doc in docs:
+        dici = doc.to_dict()
+        if  dici['email']==email :
+            canMakePark = False
+            rpost=dici['name']
+            wanted=dici
+    if canMakePark==True:
+        flash("error!")
+        rpost='name'
+        wanted=dici
+    else:
+        rpost=wanted['email']
+
+ 
+    print(post)
+    #post = Post.query.get_or_404(post_id)
+    return render_template('updateGuestOption.html', title=rpost, guest=wanted)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
