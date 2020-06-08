@@ -1,5 +1,5 @@
-from flask import Flask,render_template,request,flash,session,redirect,url_for
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm
+from flask import Flask,render_template,request,flash,session,redirect,url_for,abort
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm,PostForm
 import pyrebase
 import firebase_admin
 from firebase_admin import auth
@@ -76,6 +76,64 @@ def login():
                 return redirect(url_for("visitPage"))
         print("gggggg")
         return render_template('index.html',form=form)
+
+commentNum=0
+'''
+@app.route('/delete_comment',methods=['GET', 'POST'])
+def delete_comment():
+    form=commentForm()
+    if form.validate_on_submit():
+        docs=db.collection(u'Comments').stream()
+        date=form.date.data
+        time=form.time.data
+        park=form.parkname.data
+        for doc in docs:
+            d=doc.to_dict()
+
+            if date==d['date'] and time==d['time'] and park==d['parkname']:
+
+                db.collection(u'Comments').document(doc.id).delete()
+                return redirect(url_for("homePage"))
+
+    return render_template('delete_comment.html',form=form)
+
+'''
+
+@app.route('/comment',methods=['GET', 'POST'])
+def comment():
+    global commentNum
+    commentNum=commentNum+1
+    form=commentForm()
+    if form.validate_on_submit():
+        print("hi")
+        now = datetime.now()
+        date=now.strftime("%d/%m/%Y")
+        time=now.strftime("%H:%M:%S")
+        print(date)
+        print(time)
+        email=form.email.data
+        password=form.password.data
+        parkName=form.parkname.data
+        docs=db.collection(u'Users').stream()
+        for doc in docs:
+            d=doc.to_dict()
+
+            if email==d['email'] and password==d['password']:
+                data={'email':email,'password':password, 'comment':form.comment.data,'time':time,'date':date,'parkName':parkName}
+                print(data)
+                db.collection(u'Comments').document().set(data)
+                print(form.comment.data)
+                print(commentNum)
+                print(date)
+                print(time)
+                return redirect(url_for("homePage"))
+                break
+
+    print(form.email.data)
+    print("hiyou")
+    return render_template('comment.html',form=form)
+
+
 
 
 
@@ -279,8 +337,66 @@ def addData():
         db.collection(u'Parks').document().set({"name": i['Name']})
 
 
-#finnish
+
+
+
+@app.route('/Guests/<string:email>/update', methods=['GET', 'POST'])
+def updateGuest(email):
+    print("into UpdateGuest")
+    docs = db.collection(u'Users').stream()
+    canMakePark = True
+    for doc in docs:
+        dici = doc.to_dict()
+        if  dici['email']==email :
+            canMakePark = False
+            rpost=dici['name']
+            emailGuest=dici['email']
+            wanted=dici
+    if canMakePark:
+        abort(403)
+           
+    else:
+        rrpost=rpost
+    ref_comment=db.collection(u'Users')
+    ref_my=ref_comment.where(u'email',u'==',email).stream()
+    for r in ref_my:
+        rr=r.to_dict()['email']
+        print(rr)
+
+    form = PostForm()
+    print(form.email.data)
+    if form.validate_on_submit():
+        print("after")
+        guest_email = form.email.data
+        guest_name = form.name.data
+        guest_last = form.last.data
+        guset_password=form.password.data
+        print(guset_password)
+        ref_comment=db.collection(u'Users')
+        ref_my=ref_comment.where(u'email',u'==',email).get()
+        field_updates={"name":guest_name,"last":guest_last,"email":guest_email}
+        for r in ref_my:
+            rr=ref_comment.document(r.id)
+            rr.update(field_updates)
+        
+        flash('המשתמש התעדכן בהצלחה!', 'success')
+        return redirect(url_for('AllGuest', email=emailGuest))
+    elif request.method == 'GET':
+        print("get")
+        docs
+        form.email.data = wanted['email']
+        form.name.data = wanted['name']
+        form.last.data=wanted['last']
+        form.password=wanted['password']
+    return render_template('CreateGuest.html', title='Update Guest',
+                           form=form, legend='Update Guest')
+ 
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 

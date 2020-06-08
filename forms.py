@@ -54,3 +54,10 @@ class facilitiesForm(FlaskForm):
     parkNameDB = StringField("שם הפארק")
     facilities = StringField("מתקנים")
     submit = SubmitField('אישור')
+
+class PostForm(FlaskForm):
+    email = StringField('איימל', validators=[DataRequired()])
+    name = StringField('שם משתמש', validators=[DataRequired()])
+    last = StringField('שם משפחה', validators=[DataRequired()])
+    password= PasswordField("סיסמא")
+    submit = SubmitField('עדכן')
