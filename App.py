@@ -393,7 +393,10 @@ def updateGuest(email):
  
 
 
-
+@app.route('/Guests', methods=['GET', 'POST'])
+def AllGuest():
+    guets = db.collection(u'Users').stream()
+    return render_template('AllUsers.html', guests=guets)
 
 if __name__ == '__main__':
     app.run(debug=True)
