@@ -8,6 +8,10 @@ from firebase_admin import firestore
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
 import json 
+import os
+import tempfile
+from werkzeug.utils import secure_filename
+
 
 print(firebase_admin)
 config={
@@ -29,9 +33,14 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
+
 firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
+storage=firebase.storage()
 
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/homePage',methods=['GET', 'POST'])
@@ -226,7 +235,9 @@ def comments(p):
         arr.append(d)
     if request.method == 'POST':
         data={'name':p,'userId':session["uid"],'text':form.comment.data}
-        db.collection(u'Comments').document().set(data)
+        doc=db.collection(u'Comments').document()
+        doc.set(data)
+        
         return redirect(request.referrer)
     return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form,now=session["uid"])
 
@@ -277,6 +288,7 @@ def addData():
     # UP LOADING ALL PARKS TO FIRE-BASE
     for i in data:
         db.collection(u'Parks').document().set({"name": i['Name']})
+        # db.collection(u'Parks').document().set({"name": i['Name'], "Other": i['other']})
 
 
 #finnish
