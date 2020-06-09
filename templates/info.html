@@ -1,13 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+
+{% if admin %}
+{% extends "adminLayout.html" %}
+{% else %}
+{% extends "visitLayout.html" %}
+{% endif %}
+
+{% block content %}
     <form class="login100-form validate-form" method="POST" action="">
-        {{ form.hidden_tag() }}
-        {{form.csrf_token}}
-        {{form.submit(class="login100-form-btn")}}
+      {% for info_item in info_items %}
+          <div dir="rtl" style="background-color: white;width: 700px;margin: auto;margin-top: 10px;">
+              <div style="flex-direction:row;display: flex;">
+                  <h1 style="font-size:large;">{{info_item['name']}}</h1>
+                  <div style="border-right: 2px solid blue;"></div>
+                  <h1 style="font-size:large;text-align: center;margin-right: 200px;">{{info_item['email']}}</h1>
+              {% if admin %}
+                  <a href="{{url_for('delete_info_item',info_item_id=info_item['id'])}}" style="color: red;margin-right: 20px;">מחק</a>
+              {% endif %}
+              </div>
+          </div>
+      {% endfor %}
     </form>
-</body>
-</html>
+{% endblock content %}
