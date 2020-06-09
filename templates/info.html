@@ -19,5 +19,20 @@
               </div>
           </div>
       {% endfor %}
+      <div>
+      {{form.name.label}}
+      {{form.name( rows="4",cols="50",dir="rtl",style="margin-top: 10px;")}}
+      {{form.job.label}}
+
+      {{form.job( rows="4",cols="50",dir="rtl",style="margin-top: 10px;")}}
+      {{form.email.label}}
+
+      {{form.email( rows="4",cols="50",dir="rtl",style="margin-top: 10px;")}}
+
+  </div>
+  <div style="justify-content: center;display: flex;align-items: center;">
+      {{form.submit(style="color: #8fd7fc;background-color: white;border: none;cursor: pointer;")}}
+      <!-- <button style="color: #8fd7fc;background-color: white;border: none;cursor: pointer;">הוסף תגובה</button> -->
+  </div>
     </form>
 {% endblock content %}
