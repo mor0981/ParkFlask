@@ -399,7 +399,23 @@ def AllGuest():
     return render_template('AllUsers.html', guests=guets)
 
 
+@app.route('/register',methods=['GET', 'POST'])
+def registerByAdmin():
+    form=signupForm()
+    if request.method == 'POST':
+        email=form.email.data
+        password=form.password.data
+        name=form.name.data
+        last=form.last.data
+        Admin=form.Admin.data
+        user=auth.create_user_with_email_and_password(email,password)
+        data={"name":name,"last":last,"email":email,"password":password,"admin":Admin}
+        print(auth.get_account_info(user['idToken'])['users'][0]['localId'])
+        info=auth.get_account_info(user['idToken'])['users'][0]['localId']
+        db.collection(u'Users').document(info).set(data)
+        return redirect(url_for("login"))
 
+    return render_template('signup.html',form=form,us="Not Exist")
 
 @app.route("/Guests/<string:email>")
 def Option_guest(email):
