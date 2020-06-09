@@ -237,7 +237,16 @@ def comments(p):
         data={'name':p,'userId':session["uid"],'text':form.comment.data}
         doc=db.collection(u'Comments').document()
         doc.set(data)
-        
+        f = request.files['file']
+        if f.filename != '':
+            filename = secure_filename(f.filename)
+            print(filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            storage.child("image/"+doc.id).put("static/uploads/"+filename)
+            url=storage.child("image/"+doc.id).get_url(None)
+            doc.update({
+                'image':url
+            })
         return redirect(request.referrer)
     return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form,now=session["uid"])
 
