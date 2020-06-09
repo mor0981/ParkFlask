@@ -7,8 +7,8 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
-import json 
-
+import json
+"""ran"""
 print(firebase_admin)
 config={
   "apiKey": "AIzaSyDab7tKKm11tgRuLsAPejXGGAYJ1d20cnQ",
@@ -282,5 +282,3 @@ def addData():
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
-
-

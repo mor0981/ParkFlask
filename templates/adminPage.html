@@ -24,16 +24,16 @@
    </head>
 
    <body>
-       
+
     <!-- Preloader Start -->
-    
+
     <!-- Preloader Start -->
 
     <header>
         <!-- Header Start -->
        <div class="header-area">
             <div class="main-header ">
-                
+
                <div class="header-bottom  header-sticky">
                     <div class="container-fluid">
                         <div dir="rtl" class="row align-items-center">
@@ -46,23 +46,24 @@
                             <div  class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
                                 <!-- Main-menu -->
                                 <div class="main-menu f-right d-none d-lg-block">
-                                    <nav>                                                
-                                        <ul id="navigation">                                                                                                                                     
+                                    <nav>
+                                        <ul id="navigation">
                                             <li><a href="index.html">דף בית</a></li>
                                             <li><a href="{{url_for('parks')}}">פארקים</a></li>
                                             <li><a href="{{url_for('newpark')}}">הוספת פארק</a></li>
                                             <li><a href="{{url_for('deletepark')}}">מחיקת פארק</a></li>
                                             <li><a href="{{url_for('facilities')}}">מתקנים</a></li>
                                             <li><a href="contact.html">אודות</a></li>
+                                            <li><a href="contact.html">מידע</a></li>
                                         </ul>
                                     </nav>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-xl-5 col-lg-3 col-md-3 col-sm-3 fix-card">
                                 <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
-                                    
-                                    
-                                    
+
+
+
                                    <li class="d-none d-lg-block"> <a href="{{url_for('logout')}}" class="btn header-btn">התנתק</a></li>
                                 </ul>
                             </div>
@@ -97,23 +98,23 @@
                                     <h1 dir="rtl" data-animation="fadeInRight" data-delay=".6s">ברוכים <br> הבאים</h1>
                                     <p dir="rtl" data-animation="fadeInRight" data-delay=".8s">אתר הפארקים של באר שבע!</p>
                                     <!-- Hero-btn -->
-                                    
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-               
+
         <!-- slider Area End-->
         <!-- Category Area Start-->
-        
+
         <!-- Gallery End-->
 
     </main>
-   
-   
+
+
 	<!-- JS here -->
-	
+
 		<!-- All JS Custom Plugins Link Here here -->
         <script src="{{ url_for('static',filename='createNewPark//assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
 		<!-- Jquery, Popper, Bootstrap -->
@@ -136,17 +137,17 @@
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.scrollUp.min.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.nice-select.min.js') }}"></script>
 		<script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.sticky.js') }}"></script>
-        
+
         <!-- contact js -->
         <script src="{{ url_for('static',filename='createNewPark///assets/js/contact.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.form.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.validate.min.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/mail-script.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/jquery.ajaxchimp.min.js') }}"></script>
-        
-		<!-- Jquery Plugins, main Jquery -->	
+
+		<!-- Jquery Plugins, main Jquery -->
         <script src="{{ url_for('static',filename='createNewPark///assets/js/plugins.js') }}"></script>
         <script src="{{ url_for('static',filename='createNewPark///assets/js/main.js') }}"></script>
-        
+
     </body>
 </html>
