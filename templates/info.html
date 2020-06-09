@@ -14,7 +14,7 @@
                   <div style="border-right: 2px solid blue;"></div>
                   <h1 style="font-size:large;text-align: center;margin-right: 200px;">{{info_item['email']}}</h1>
               {% if admin %}
-                  <a href="{{url_for('delete_info_item',info_item_id=info_item['id'])}}" style="color: red;margin-right: 20px;">מחק</a>
+                  <a href="{{url_for('delete_info_item',info_item_id=info_item['email'])}}" style="color: red;margin-right: 20px;">מחק</a>
               {% endif %}
               </div>
           </div>

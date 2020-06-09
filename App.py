@@ -239,6 +239,7 @@ def delete_comments(post_id):
 def info_items():
     form=infoForm()
     #docs = db.collection(u'Comments').where(u'name', u'==', p).stream()
+    dic=db.collection(u'Information').stream()
     docs = [{
       'id': 1,
       'name': 'name 1',
@@ -260,6 +261,7 @@ def info_items():
 
         for doc in docs:
             dici = doc.to_dict()
+            print(dici)
             if data["name"] == dici['name'] and data["job"] == dici['job'] and data["email"] == dici['email']:
                 flash("עובד קיים")
                 return
@@ -270,20 +272,27 @@ def info_items():
 
 
 
-
+    arr=[]
+    for doc in docs:
+        d=doc.to_dict()
+        d["first"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["name"]
+        d["last"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["last"]
+        d["post_id"]=doc.id
+        arr.append(d)
     print("not")
-    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=docs,now=session["uid"],form=form)
+    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=dic,now=session["uid"],form=form)
 
 
 @app.route('/info_items/<info_item_id>',methods=['GET'])
 def delete_info_item(info_item_id):
+    form=infoForm()
     print('deleting ' + info_item_id)
     docs = [{
       'id': 1,
       'name': 'name 1',
       'email': 'email 1'
     }]
-    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=docs,now=session["uid"])
+    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=docs,now=session["uid"],form=form)
 
 @app.route('/comments/<post_id>/<text>/update',methods=['GET', 'POST'])
 def update_comments(post_id,text):
