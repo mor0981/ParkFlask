@@ -273,14 +273,16 @@ def info_items():
 
 
     arr=[]
-    for doc in docs:
+    for doc in dic:
         d=doc.to_dict()
-        d["first"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["name"]
-        d["last"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["last"]
-        d["post_id"]=doc.id
+        print(d)
+        
+        #d["first"]=db.collection(u'Information').document(d["userId"]).get().to_dict()["name"]
+        #d["last"]=db.collection(u'Information').document(d["userId"]).get().to_dict()["last"]
+        #d["post_id"]=doc.id
         arr.append(d)
     print("not")
-    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=dic,now=session["uid"],form=form)
+    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=arr,now=session["uid"],form=form)
 
 
 @app.route('/info_items/<info_item_id>',methods=['GET'])
