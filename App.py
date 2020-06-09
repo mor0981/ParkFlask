@@ -445,6 +445,22 @@ def Option_guest(email):
     return render_template('updateGuestOption.html', title=rpost, guest=wanted)
 
 
+
+@app.route('/Guests/<string:email>/delete',methods=[ 'POST'])
+def deleteGuest(email):
+    ref_comment=db.collection(u'Users')
+    ref_my=ref_comment.where(u'email',u'==',email).get()
+    for r in ref_my:
+        rr=ref_comment.document(r.id)
+        rr.delete()
+        firebase_admin.auth.delete_user(rr.id)
+
+    flash('המשתמש נמחק!', 'success')
+    return redirect(url_for('AllGuest'))
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
