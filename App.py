@@ -265,21 +265,16 @@ def info_items():
             if data["name"] == dici['name'] and data["job"] == dici['job'] and data["email"] == dici['email']:
                 flash("עובד קיים")
                 return
-            else:
-                db.collection(u'Information').document().set(data)
-                print("hello2")
-        return redirect(url_for('adminPage'))
-
-
+        db.collection(u'Information').document().set(data)
+        print("hello2")
+        return redirect(url_for('info_items'))
 
     arr=[]
     for doc in dic:
         d=doc.to_dict()
+        d["id"] = doc.id
         print(d)
-        
-        #d["first"]=db.collection(u'Information').document(d["userId"]).get().to_dict()["name"]
-        #d["last"]=db.collection(u'Information').document(d["userId"]).get().to_dict()["last"]
-        #d["post_id"]=doc.id
+
         arr.append(d)
     print("not")
     return render_template('info.html',admin=session["admin"],email=session["user"],info_items=arr,now=session["uid"],form=form)
@@ -288,13 +283,9 @@ def info_items():
 @app.route('/info_items/<info_item_id>',methods=['GET'])
 def delete_info_item(info_item_id):
     form=infoForm()
-    print('deleting ' + info_item_id)
-    docs = [{
-      'id': 1,
-      'name': 'name 1',
-      'email': 'email 1'
-    }]
-    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=docs,now=session["uid"],form=form)
+    db.collection(u'Information').document(info_item_id).delete()
+
+    return redirect(url_for('info_items'))
 
 @app.route('/comments/<post_id>/<text>/update',methods=['GET', 'POST'])
 def update_comments(post_id,text):

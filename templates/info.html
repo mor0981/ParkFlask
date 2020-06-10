@@ -6,33 +6,44 @@
 {% endif %}
 
 {% block content %}
-    <form class="login100-form validate-form" method="POST" action="">
-      {% for info_item in info_items %}
-          <div dir="rtl" style="background-color: white;width: 700px;margin: auto;margin-top: 10px;">
-              <div style="flex-direction:row;display: flex;">
-                  <h1 style="font-size:large;">{{info_item['name']}}</h1>
-                  <div style="border-right: 2px solid blue;"></div>
-                  <h1 style="font-size:large;text-align: center;margin-right: 200px;">{{info_item['email']}}</h1>
-              {% if admin %}
-                  <a href="{{url_for('delete_info_item',info_item_id=info_item['email'])}}" style="color: red;margin-right: 20px;">מחק</a>
-              {% endif %}
-              </div>
+    <form style="display: flex; flex-direction: column; align-items: center;" method="POST" action="">
+        <table>
+          <tr style="border: 1px solid black;">
+            <th style="border: 1px solid black;">Name</th>
+            <th style="border: 1px solid black;">Email</th>
+            <th style="border: 1px solid black;">Job</th>
+            <th style="border: 1px solid black;">Delete</th>
+          </tr>
+          {% for info_item in info_items %}
+            <tr style="border: 1px solid black;">
+              <td style="border: 1px solid black;">{{info_item['name']}}</td>
+              <td style="border: 1px solid black;">{{info_item['email']}}</td>
+              <td style="border: 1px solid black;">{{info_item['job']}}</td>
+              <td style="border: 1px solid black;">
+                {% if admin %}
+                    <a href="{{url_for('delete_info_item',info_item_id=info_item['id'])}}" style="color: red;margin-right: 20px;">מחק</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      {% if admin %}
+        <div class="form-row" style="width: 300px; display: flex;flex-direction: column; align-items: center;">
+          <div class="form-group" style="text-align: right;">
+            {{form.name.label}}
+            {{form.name(class="form-control")}}
           </div>
-      {% endfor %}
-      <div>
-      {{form.name.label}}
-      {{form.name( rows="4",cols="50",dir="rtl",style="margin-top: 10px;")}}
-      {{form.job.label}}
+          <div class="form-group" style="text-align: right;">
+            {{form.email.label}}
+            {{form.email(class="form-control")}}
+          </div>
+          <div class="form-group" style="text-align: right;">
+            {{form.job.label}}
+            {{form.job(class="form-control")}}
+          </div>
+        </div>
 
-      {{form.job( rows="4",cols="50",dir="rtl",style="margin-top: 10px;")}}
-      {{form.email.label}}
-
-      {{form.email( rows="4",cols="50",dir="rtl",style="margin-top: 10px;")}}
-
-  </div>
-  <div style="justify-content: center;display: flex;align-items: center;">
-      {{form.submit(style="color: #8fd7fc;background-color: white;border: none;cursor: pointer;")}}
-      <!-- <button style="color: #8fd7fc;background-color: white;border: none;cursor: pointer;">הוסף תגובה</button> -->
-  </div>
+        {{form.submit(class="btn btn-primary") }}
+      {% endif %}
     </form>
 {% endblock content %}
