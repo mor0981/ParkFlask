@@ -12,7 +12,9 @@
             <th style="border: 1px solid black;">Name</th>
             <th style="border: 1px solid black;">Email</th>
             <th style="border: 1px solid black;">Job</th>
+            {% if admin %}
             <th style="border: 1px solid black;">Delete</th>
+            {% endif %}
           </tr>
           {% for info_item in info_items %}
             <tr style="border: 1px solid black;">
