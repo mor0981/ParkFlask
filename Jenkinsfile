@@ -9,8 +9,6 @@ pipeline {
             sh 'pip install --user Flask-WTF'
             sh 'pip install --user email_validator'
             sh 'pip install --user --upgrade firebase-admin'
-            sh 'pip install --user json-e'
-            sh 'pip install --user requests --upgrade'
         }
       }
     }
@@ -25,10 +23,18 @@ pipeline {
     stage('test') {
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]){
+            sh 'pip install --user pyrebase'
             sh 'python test2.py'
         }
       }   
     }
+
+  stage('Send email') {
+      steps {
+       emailext body: '', recipientProviders: [brokenBuildSuspects()], subject: '', to: 'mor0981@gmail.com'
+      }
+    }
+    
  
     
   }
