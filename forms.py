@@ -55,8 +55,17 @@ class facilitiesForm(FlaskForm):
     facilities = StringField("מתקנים")
     submit = SubmitField('אישור')
 
+
+class PostForm(FlaskForm):
+    email = StringField('איימל', validators=[DataRequired()])
+    name = StringField('שם משתמש', validators=[DataRequired()])
+    last = StringField('שם משפחה', validators=[DataRequired()])
+    password= PasswordField("סיסמא")
+    submit = SubmitField('עדכן')
+
 class infoForm(FlaskForm):
     name=StringField("שם")
     job=StringField("תפקיד")
     email = StringField("דואר אלקטרוני")
     submit=SubmitField("הכנס")
+

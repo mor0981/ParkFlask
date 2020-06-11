@@ -33,89 +33,90 @@
 	
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="login100-more" style="background-image: url('static/signup/images/green-background.jpg');"></div>
-
+			<div class="login100-more" style="background-image: url('static/signup/images/background-green.jpg');"></div>
 			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50" >
-				{{ form.hidden_tag() }}
-				{{form.csrf_token}}
 				<form class="login100-form validate-form"  action="" method="POST">
 					<span class="login100-form-title p-b-59" >
-						הרשמה
+						{{ form.hidden_tag() }}
+						<legend class="border-bottom mb-4">{{ legend }}</legend>
+						
 					</span>
 
-			
-			
-					<div class="wrap-input100 validate-input" data-validate="Name is required" dir="rtl">
-						<span class="label-input100"> שם משתמש </span>
-						{{form.name(class="input100",type="text")}}
-
-						<!--<input class="input100" type="text" name="name" placeholder="הכנס שם מלא" dir="ltr">-->
+					<div class="wrap-input100 validate-input" data-validate="הכנס שם משתמש" dir="rtl">
+						<span class="label-input100">שם משתמש </span>
+						<!--<input class="input100" type="text" id="txtName" name="name" placeholder="       הכנס שם מלא" dir="ltr">-->
 						<span class="focus-input100"></span>
+
+						{% if form.name.errors %}
+						{{ form.name(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.name.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+					{{ form.name(class="form-control form-control-lg") }}
+					{% endif %}
 					</div>
 					{%if form.name.errors %}
 					<div class="er">הכנס שם משתמש*</div>
 					{% endif %}
 
-					
-
-					<div class="wrap-input100 validate-input" data-validate="Username is required" dir="rtl">
-						<span class="label-input100">שם משפחה</span>
-						{{form.last(class="input100",type="text")}}
-						<!--<input class="input100" type="text" name="last" placeholder="הכנס שם משתמש" dir="ltr">-->
+					<div class="wrap-input100 validate-input" data-validate="הכנס שם משפחה" dir="rtl">
+						<span class="label-input100">שם משפחה </span>
+						<!--<input class="input100" type="text" id="txtLast"  name="last" placeholder="      הכנס שם משפחה" dir="ltr">-->
+						{% if form.last.errors %}
+						{{ form.last(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.last.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+					{{ form.last(class="form-control form-control-lg") }}
+					{% endif %}
 						<span class="focus-input100"></span>
+
 					</div>
 					{%if form.last.errors %}
 					<div class="er">הכנס שם משפחה*</div>
 					{% endif %}
 
-
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz" dir="rtl">
 						<span class="label-input100">אימייל</span>
-						{{form.email(class="input100",type="email")}}
-						<!--<input class="input100" type="text" name="email" placeholder="הכנס אימייל" dir="ltr">-->
+						<!--<input class="input100" type="text"  id="txtEmail" name="email" placeholder="      הכנס אימייל" dir="ltr">-->
 						<span class="focus-input100"></span>
+						{% if form.email.errors %}
+						{{ form.email(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.email.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+					{{ form.email(class="form-control form-control-lg") }}
+
+					{% endif %}
 					</div>
 					{%if form.email.errors %}
 					<div class="er">אימייל תקין יהיה בצורה הבא :ex@abc.xyz *</div>
 					{% endif %}
 
-			
-
-					<div class="wrap-input100 validate-input" data-validate = "Password is required" dir="rtl">
-						<span class="label-input100">סיסמא</span>
-						{{form.password(class="input100",type="password")}}
-						<!--<input class="input100" type="text" name="password" placeholder="הכנס סיסמא" dir="ltr">-->
-						<span class="focus-input100"></span>
-
-					</div>
-					{%if form.password.errors %}
-					<div class="er">סיסמא לפחות מורכבת מ 6 מספרים/תווים *</div>
-					{% endif %}
-
-			
-					<div class="wrap-input100 validate-input"  dir="rtl">
-						{{ form.Admin.label }}{{form.Admin}}
-
-
-
-					</div>
 				
+
 		
 			
 
-	
 					<div class="container-login100-form-btn" dir="rtl">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" name="submit">
+						<!---	<button class="login100-form-btn" name="submit">
 								הרשם
-							</button>
+							</button> -->
+							{{ form.submit(class="btn btn-outline-info") }}
 						</div>
 
-						<a href="#" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30" dir="rtl">
-							כבר יש לי משתמש
-							<i class="fa fa-long-arrow-right m-l-5"></i>
-						</a>
+						
 					</div>
 				</form>
 			</div>
