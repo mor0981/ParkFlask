@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,flash,session,redirect,url_for
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm,infoForm
 import pyrebase
 import firebase_admin
 from firebase_admin import auth
@@ -11,6 +11,7 @@ import json
 import os
 import tempfile
 from werkzeug.utils import secure_filename
+
 
 
 print(firebase_admin)
@@ -255,6 +256,58 @@ def delete_comments(post_id):
     db.collection(u'Comments').document(post_id).delete()
     return redirect(url_for('parks'))
 
+@app.route('/info_items',methods=['GET', 'POST'])
+def info_items():
+    form=infoForm()
+    #docs = db.collection(u'Comments').where(u'name', u'==', p).stream()
+    dic=db.collection(u'Information').stream()
+    docs = [{
+      'id': 1,
+      'name': 'name 1',
+      'email': 'email 1'
+    }, {
+      'id': 2,
+      'name': 'name 2',
+      'email': 'email 2'
+    }]
+    print(form.email.data)
+    if request.method == 'POST':
+        print("hello")
+        data = {
+        "name": form.name.data,
+        "job": form.job.data,
+        "email": form.email.data
+        }
+        docs = db.collection(u'Information').stream()
+
+        for doc in docs:
+            dici = doc.to_dict()
+            print(dici)
+            if data["name"] == dici['name'] and data["job"] == dici['job'] and data["email"] == dici['email']:
+                flash("עובד קיים")
+                return
+        db.collection(u'Information').document().set(data)
+        print("hello2")
+        return redirect(url_for('info_items'))
+
+    arr=[]
+    for doc in dic:
+        d=doc.to_dict()
+        d["id"] = doc.id
+        print(d)
+
+        arr.append(d)
+    print("not")
+    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=arr,now=session["uid"],form=form)
+
+
+@app.route('/info_items/<info_item_id>',methods=['GET'])
+def delete_info_item(info_item_id):
+    form=infoForm()
+    db.collection(u'Information').document(info_item_id).delete()
+
+    return redirect(url_for('info_items'))
+
 @app.route('/comments/<post_id>/<text>/update',methods=['GET', 'POST'])
 def update_comments(post_id,text):
     form=updateComment()
@@ -302,5 +355,3 @@ def addData():
 #finnish
 if __name__ == '__main__':
     app.run(debug=True)
-
-

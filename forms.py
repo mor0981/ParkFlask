@@ -54,3 +54,9 @@ class facilitiesForm(FlaskForm):
     parkNameDB = StringField("שם הפארק")
     facilities = StringField("מתקנים")
     submit = SubmitField('אישור')
+
+class infoForm(FlaskForm):
+    name=StringField("שם")
+    job=StringField("תפקיד")
+    email = StringField("דואר אלקטרוני")
+    submit=SubmitField("הכנס")
