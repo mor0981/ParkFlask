@@ -26,7 +26,6 @@ pipeline {
     stage('test') {
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]){
-            sh 'pip install --user pyrebase'
             sh 'python test2.py'
         }
       }   
