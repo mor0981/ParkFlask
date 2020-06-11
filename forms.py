@@ -34,6 +34,8 @@ class signupForm(FlaskForm):
     name = StringField("שם פרטי")
     last = StringField("שם משפחה")
     submit=SubmitField("הרשם")
+    Admin = RadioField("?אדמין",choices=[('True','כן'),('False','לא')], validators=[DataRequired()])
+
 
 class signout2Form(FlaskForm):
     email = StringField("דואר אלקטרוני")

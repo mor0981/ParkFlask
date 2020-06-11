@@ -474,7 +474,7 @@ def AllGuest():
     return render_template('AllUsers.html', guests=guets)
 
 
-@app.route('/register',methods=['GET', 'POST'])
+@app.route('/registerByAdmin',methods=['GET', 'POST'])
 def registerByAdmin():
     form=signupForm()
     if request.method == 'POST':
