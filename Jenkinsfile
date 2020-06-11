@@ -8,8 +8,9 @@ pipeline {
             sh 'pip install --user pyrebase'
             sh 'pip install --user Flask-WTF'
             sh 'pip install --user email_validator'
-            sh 'pip install requests --user --upgrade'
             sh 'pip install --user --upgrade firebase-admin'
+            sh 'pip install --user json-e'
+            sh 'pip install --user requests --upgrade'
             
         }
       }
