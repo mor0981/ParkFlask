@@ -31,6 +31,12 @@ pipeline {
       }   
     }
 
+    stage('Send email') {	
+      steps {	
+       emailext body: '', recipientProviders: [brokenBuildSuspects()], subject: '', to: 'mor0981@gmail.com'	
+      }	
+    }
+
     
  
     
