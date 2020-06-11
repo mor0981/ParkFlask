@@ -26,16 +26,19 @@ pipeline {
     stage('test') {
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]){
+          try{
+            sh 'pip install --user pyrebase'
             sh 'python test2.py'
+          }
+          catch(er)
+          {
+            emailext body: "${er}", subject: 'Jenkis', to: 'mor0981@gmail.com'
+          }
         }
       }   
     }
 
-    stage('Send email') {	
-      steps {	
-       emailext body: '', recipientProviders: [brokenBuildSuspects()], subject: '', to: 'mor0981@gmail.com'	
-      }	
-    }
+    
 
     
  
