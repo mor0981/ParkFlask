@@ -24,25 +24,17 @@ pipeline {
     
     
     stage('test') {
-      node{
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]){
-          try{
-            sh 'pip install --user pyrebase'
             sh 'python test2.py'
-          }
-          catch(er)
-          {
-            emailext body: "${er}", subject: 'Jenkis', to: 'mor0981@gmail.com'
-          }
         }
-      } 
-      }  
+      }   
     }
 
     
 
     
+ 
     
   }
 }
