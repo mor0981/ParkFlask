@@ -43,7 +43,7 @@ class signout2Form(FlaskForm):
 
 class addComment(FlaskForm):
     submit = SubmitField('הוסף תגובה')
-    comment=TextAreaField("רשום תגובה")
+    comment=TextAreaField("רשום תגובה",validators=[DataRequired()])
 
 class updateComment(FlaskForm):
     submit = SubmitField('הוסף תגובה')
@@ -55,9 +55,17 @@ class facilitiesForm(FlaskForm):
     facilities = StringField("מתקנים")
     submit = SubmitField('אישור')
 
+
 class PostForm(FlaskForm):
     email = StringField('איימל', validators=[DataRequired()])
     name = StringField('שם משתמש', validators=[DataRequired()])
     last = StringField('שם משפחה', validators=[DataRequired()])
     password= PasswordField("סיסמא")
     submit = SubmitField('עדכן')
+
+class infoForm(FlaskForm):
+    name=StringField("שם")
+    job=StringField("תפקיד")
+    email = StringField("דואר אלקטרוני")
+    submit=SubmitField("הכנס")
+
