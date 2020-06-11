@@ -24,6 +24,7 @@ pipeline {
     
     
     stage('test') {
+      node{
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]){
           try{
@@ -35,7 +36,8 @@ pipeline {
             emailext body: "${er}", subject: 'Jenkis', to: 'mor0981@gmail.com'
           }
         }
-      }   
+      } 
+      }  
     }
 
     
