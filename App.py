@@ -264,7 +264,6 @@ def update_comments(post_id,text):
         return redirect(url_for('parks'))
     return render_template('updateComment.html',form=form,admin=session["admin"],text=text)
 
-
 @app.route('/facilities', methods=['GET', 'POST'])
 def facilities():
         form = facilitiesForm()
