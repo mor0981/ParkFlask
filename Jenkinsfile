@@ -12,7 +12,7 @@ pipeline {
             sh 'pip install --user json-e'
             sh 'pip install --user requests --upgrade'
             sh 'pip install --user Flask-JSGlue'
-            
+            sh 'pip install --user pyflakes'
         }
       }
     }
@@ -28,6 +28,7 @@ pipeline {
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]){
             sh 'python test2.py'
+            sh 'python -m pyflakes templates/'
         }
       }   
     }
