@@ -409,7 +409,10 @@ def registerByAdmin():
         last=form.last.data
         Admin=form.Admin.data
         user=auth.create_user_with_email_and_password(email,password)
-        data={"name":name,"last":last,"email":email,"password":password,"admin":Admin}
+        if Admin=='true':
+            data={"name":name,"last":last,"email":email,"password":password,"admin":True}
+        if Admin=='false':
+            data={"name":name,"last":last,"email":email,"password":password,"admin":False}
         print(auth.get_account_info(user['idToken'])['users'][0]['localId'])
         info=auth.get_account_info(user['idToken'])['users'][0]['localId']
         db.collection(u'Users').document(info).set(data)
