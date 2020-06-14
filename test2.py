@@ -88,7 +88,7 @@ class TestHello(unittest.TestCase):
         taster = app.test_client(self)
         rv = taster.post('/login' , data=dict(email="mor0981@gmail.com",password="123456"),follow_redirects=True)
         rv = taster.get('/login',follow_redirects=True)
-        rv = taster.post('/registerByAdmin' , data=dict(name="טסט",last="טסט",email="test3@gmail.com",password="123456",Admin=True),follow_redirects=True)
+        rv = taster.post('/registerByAdmin' , data=dict(name="טסט",last="טסט",email="test3@gmail.com",password="123456",Admin="True"),follow_redirects=True)
         rv= taster.get('/logout',follow_redirects=True)
         rv = taster.post('/login' , data=dict(email="test3@gmail.com",password="123456"),follow_redirects=True)
         self.assertTrue('ברוכים'.encode() in rv.data)
