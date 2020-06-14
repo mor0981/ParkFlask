@@ -33,6 +33,7 @@ class signupForm(FlaskForm):
     password= PasswordField("סיסמא")
     name = StringField("שם פרטי")
     last = StringField("שם משפחה")
+    Admin = RadioField("?אדמין",choices=[('true','כן'),('false','לא')], validators=[DataRequired()])
     submit=SubmitField("הרשם")
     Admin = RadioField("?אדמין",choices=[('True','כן'),('False','לא')], validators=[DataRequired()])
 
