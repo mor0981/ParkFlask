@@ -1,5 +1,7 @@
+
 from flask import Flask,render_template,request,flash,session,redirect,url_for,abort
-from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm,PostForm
+from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm,PostForm,infoForm
+
 import pyrebase
 import firebase_admin
 from firebase_admin import auth
@@ -8,6 +10,11 @@ from firebase_admin import firestore
 app = Flask(__name__)
 app.config['SECRET_KEY']='mormormor'
 import json 
+import os
+import tempfile
+from werkzeug.utils import secure_filename
+
+
 
 print(firebase_admin)
 config={
@@ -29,9 +36,14 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
+
 firebase = pyrebase.initialize_app(config)
 auth= firebase.auth()
+storage=firebase.storage()
 
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/',methods=['GET', 'POST'])
 @app.route('/homePage',methods=['GET', 'POST'])
@@ -284,7 +296,18 @@ def comments(p):
         arr.append(d)
     if request.method == 'POST':
         data={'name':p,'userId':session["uid"],'text':form.comment.data}
-        db.collection(u'Comments').document().set(data)
+        doc=db.collection(u'Comments').document()
+        doc.set(data)
+        f = request.files['file']
+        if f.filename != '':
+            filename = secure_filename(f.filename)
+            print(filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            storage.child("image/"+doc.id).put("static/uploads/"+filename)
+            url=storage.child("image/"+doc.id).get_url(None)
+            doc.update({
+                'image':url
+            })
         return redirect(request.referrer)
     return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form,now=session["uid"])
 
@@ -292,6 +315,58 @@ def comments(p):
 def delete_comments(post_id):
     db.collection(u'Comments').document(post_id).delete()
     return redirect(url_for('parks'))
+
+@app.route('/info_items',methods=['GET', 'POST'])
+def info_items():
+    form=infoForm()
+    #docs = db.collection(u'Comments').where(u'name', u'==', p).stream()
+    dic=db.collection(u'Information').stream()
+    docs = [{
+      'id': 1,
+      'name': 'name 1',
+      'email': 'email 1'
+    }, {
+      'id': 2,
+      'name': 'name 2',
+      'email': 'email 2'
+    }]
+    print(form.email.data)
+    if request.method == 'POST':
+        print("hello")
+        data = {
+        "name": form.name.data,
+        "job": form.job.data,
+        "email": form.email.data
+        }
+        docs = db.collection(u'Information').stream()
+
+        for doc in docs:
+            dici = doc.to_dict()
+            print(dici)
+            if data["name"] == dici['name'] and data["job"] == dici['job'] and data["email"] == dici['email']:
+                flash("עובד קיים")
+                return
+        db.collection(u'Information').document().set(data)
+        print("hello2")
+        return redirect(url_for('info_items'))
+
+    arr=[]
+    for doc in dic:
+        d=doc.to_dict()
+        d["id"] = doc.id
+        print(d)
+
+        arr.append(d)
+    print("not")
+    return render_template('info.html',admin=session["admin"],email=session["user"],info_items=arr,now=session["uid"],form=form)
+
+
+@app.route('/info_items/<info_item_id>',methods=['GET'])
+def delete_info_item(info_item_id):
+    form=infoForm()
+    db.collection(u'Information').document(info_item_id).delete()
+
+    return redirect(url_for('info_items'))
 
 @app.route('/comments/<post_id>/<text>/update',methods=['GET', 'POST'])
 def update_comments(post_id,text):
@@ -301,7 +376,6 @@ def update_comments(post_id,text):
         db.collection(u'Comments').document(post_id).update(data)
         return redirect(url_for('parks'))
     return render_template('updateComment.html',form=form,admin=session["admin"],text=text)
-
 
 @app.route('/facilities', methods=['GET', 'POST'])
 def facilities():
@@ -335,6 +409,7 @@ def addData():
     # UP LOADING ALL PARKS TO FIRE-BASE
     for i in data:
         db.collection(u'Parks').document().set({"name": i['Name']})
+        # db.collection(u'Parks').document().set({"name": i['Name'], "Other": i['other']})
 
 
 
@@ -466,6 +541,4 @@ def deleteGuest(email):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
 
