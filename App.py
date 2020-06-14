@@ -1,13 +1,13 @@
-
 from flask import Flask,render_template,request,flash,session,redirect,url_for,abort
 from forms import LoginForm,SignOutForm,NewParkForm,DeleteParkForm,signupForm,signout2Form,addComment,updateComment,facilitiesForm,PostForm,infoForm
-
+from flask_jsglue import JSGlue
 import pyrebase
 import firebase_admin
 from firebase_admin import auth
 from firebase_admin import credentials
 from firebase_admin import firestore
 app = Flask(__name__)
+jsglue = JSGlue(app)
 app.config['SECRET_KEY']='mormormor'
 import json 
 import os
@@ -236,7 +236,6 @@ def unregister():
 def newpark():
     form = NewParkForm()
     if form.validate_on_submit():
-
         data = {
         "name": form.parkName.data,
         "other": form.parkAddress.data,
@@ -256,7 +255,7 @@ def newpark():
             flash("לא ניתן ליצור פארק")
 
         return redirect(url_for('newpark'))
-    return render_template('createNewPark.html', form=form)
+    return render_template('createNewPark.html', form=form,admin=session["admin"])
 
 @app.route('/deletepark', methods =['GET','POST'])
 def deletepark():
@@ -277,7 +276,7 @@ def deletepark():
 
 
         return redirect(url_for('deletepark'))
-    return render_template('deletePark.html', form=form)
+    return render_template('deletePark.html', form=form,admin=session["admin"])
 
 @app.route('/parks',methods=['GET', 'POST'])
 def parks():
@@ -286,6 +285,14 @@ def parks():
 @app.route('/comments/<p>',methods=['GET', 'POST'])
 def comments(p):
     form=addComment()
+    rat=True
+    doc = db.collection(u'Users').document(session["uid"]).get()
+    c=doc.to_dict()
+    try:
+        if p in c['parks']:
+            rat=False
+    except:
+        print("Not")
     docs = db.collection(u'Comments').where(u'name', u'==', p).stream()
     arr=[]
     for doc in docs:
@@ -294,6 +301,22 @@ def comments(p):
         d["last"]=db.collection(u'Users').document(d["userId"]).get().to_dict()["last"]
         d["post_id"]=doc.id
         arr.append(d)
+    ########## park facility
+    data = {'name': p, 'userId': session["uid"], 'data-rating': form.comment.data}
+    docs = db.collection(u'Parks').stream()
+    for doc in docs:
+        dici = doc.to_dict()
+        if p == dici['name']:
+            parkFacility = dici['parkFacility']
+    docs = db.collection(u'Parks').where(u'name', u'==', p).stream()
+    for doc in docs:
+        r=doc.to_dict()
+        if(r['votes']==0):
+            ret=5
+        else:
+            ret=r['rating']/r['votes']
+    
+    ########## end - park facility
     if request.method == 'POST':
         data={'name':p,'userId':session["uid"],'text':form.comment.data}
         doc=db.collection(u'Comments').document()
@@ -309,12 +332,41 @@ def comments(p):
                 'image':url
             })
         return redirect(request.referrer)
-    return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form,now=session["uid"])
+    return render_template('comments.html',admin=session["admin"],parkName=p,email=session["user"],comments=arr,form=form,now=session["uid"],parkFacility=parkFacility,ret=ret,rat=rat)
 
 @app.route('/comments/<post_id>/delete',methods=['GET', 'POST'])
 def delete_comments(post_id):
     db.collection(u'Comments').document(post_id).delete()
     return redirect(url_for('parks'))
+
+@app.route('/comments/<p>/<r>/rating',methods=['GET', 'POST'])
+def rating(p,r):
+    docs = db.collection(u'Parks').where(u'name', u'==', p).stream()
+    for doc in docs:
+        c=doc.to_dict()
+        a=c['votes']
+        b=c['rating']
+    db.collection(u'Parks').document(doc.id).update({
+        'votes':a+1,
+        'rating':b+int(r)
+    })
+    now=session["uid"]
+    doc = db.collection(u'Users').document(now).get()
+    c=doc.to_dict()
+    try:
+        db.collection(u'Users').document(now).update({
+            'parks':c['parks'].append(p),
+        })
+    
+    except:
+    
+        db.collection(u'Users').document(now).update({
+            'parks':[p],
+        })
+    
+        
+    
+    return redirect(request.referrer)
 
 @app.route('/info_items',methods=['GET', 'POST'])
 def info_items():

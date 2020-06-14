@@ -11,6 +11,7 @@ pipeline {
             sh 'pip install --user --upgrade firebase-admin'
             sh 'pip install --user json-e'
             sh 'pip install --user requests --upgrade'
+            sh 'pip install --user Flask-JSGlue'
             
         }
       }

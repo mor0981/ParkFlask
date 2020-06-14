@@ -1,7 +1,15 @@
 import unittest
 from App import app
 import json 
+# import firebase_admin
+# from firebase_admin import auth
+# from firebase_admin import credentials
+# from firebase_admin import firestore
 
+# cred = credentials.Certificate('parkflask-firebase-adminsdk-wplsp-87a9bb6106.json')
+# firebase_admin.initialize_app(cred)
+
+# db = firestore.client()
 
 
 class TestHello(unittest.TestCase):
@@ -29,6 +37,7 @@ class TestHello(unittest.TestCase):
         rv = taster.post('/login' , data=dict(email="mor0981@gmail.com",password="123456"),follow_redirects=True)
         rv = taster.get('/login',follow_redirects=True)
         self.assertTrue('ברוכים'.encode() in rv.data)
+        rv= taster.get('/logout',follow_redirects=True)
 
     def test_delete_user(self):
         taster = app.test_client(self)
@@ -58,6 +67,42 @@ class TestHello(unittest.TestCase):
         rv = taster.get('/parks')
         for p in arr:
             self.assertTrue(p.encode() in rv.data)
+
+
+    def test_login_as_admin(self):
+        taster = app.test_client(self)
+        rv = taster.post('/login' , data=dict(email="mor0981@gmail.com",password="123456"),follow_redirects=True)
+        rv = taster.get('/login',follow_redirects=True)
+        self.assertTrue('משתמשים'.encode() in rv.data)
+        rv= taster.get('/logout',follow_redirects=True)
+
+    def test_login_as_visit(self):
+        taster = app.test_client(self)
+        rv = taster.post('/login' , data=dict(email="dani@gmail.com",password="123456"),follow_redirects=True)
+        rv = taster.get('/login',follow_redirects=True)
+        self.assertFalse('משתמשים'.encode() in rv.data)
+        rv= taster.get('/logout',follow_redirects=True)
+
+    
+    def test_add_admin(self):
+        taster = app.test_client(self)
+        rv = taster.post('/login' , data=dict(email="mor0981@gmail.com",password="123456"),follow_redirects=True)
+        rv = taster.get('/login',follow_redirects=True)
+        rv = taster.post('/registerByAdmin' , data=dict(name="טסט",last="טסט",email="test3@gmail.com",password="123456",Admin=True),follow_redirects=True)
+        rv= taster.get('/logout',follow_redirects=True)
+        rv = taster.post('/login' , data=dict(email="test3@gmail.com",password="123456"),follow_redirects=True)
+        self.assertTrue('ברוכים'.encode() in rv.data)
+        rv = taster.post('/unregister',data=dict(email="test3@gmail.com",password="123456"),follow_redirects=True)
+
+        
+
+    # def delet_comment(self):
+    #     taster = app.test_client(self)
+    #     rv = taster.post('/register' , data=dict(email="test3@gmail.com",password="123456",name="test",last="test"),follow_redirects=True)
+    #     rv = taster.post('/login' , data=dict(email="test3@gmail.com",password="123456"),follow_redirects=True)
+    #     rv = taster.post('/comments/פארק%20ליכטנשטיין',data=dict(comment="test"),follow_redirects=True)
+    #     rv = taster.get('/comments/פארק%20ליכטנשטיין')
+    #     self.assertTrue('test'.encode() in rv.data)
 
     
         

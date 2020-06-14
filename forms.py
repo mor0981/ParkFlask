@@ -46,6 +46,8 @@ class signout2Form(FlaskForm):
 class addComment(FlaskForm):
     submit = SubmitField('הוסף תגובה')
     comment=TextAreaField("רשום תגובה",validators=[DataRequired()])
+    stars = RadioField(choices=[('1','1'),('2','2'),('3','3'),('4','4'),('5','5')], validators=[DataRequired()])
+    
 
 class updateComment(FlaskForm):
     submit = SubmitField('הוסף תגובה')
