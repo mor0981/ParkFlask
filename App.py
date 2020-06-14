@@ -447,8 +447,8 @@ def facilities():
 
                     if canAddPark:
                         # Deleting and creating a new park witch will be updated with the new facilities
-                        db.collection(u'Parks').document(doc.id).delete()
-                        db.collection(u'Parks').document().set(parkData)
+                        # db.collection(u'Parks').document(doc.id).delete()
+                        db.collection(u'Parks').document(doc.id).update(parkData)
                         flash("עדכן מתקנים")
                         break
 
